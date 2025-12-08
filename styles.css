@@ -852,14 +852,14 @@ p {
     background: var(--color-green-600);
 }
 
-/* Cancel button - red */
+/* Cancel button - black with red icon */
 .modal-round-btn.cancel .modal-btn-circle {
-    background: var(--color-red-500);
-    color: var(--color-black);
+    background: var(--color-black);
+    color: var(--color-red-500);
 }
 
 .modal-round-btn.cancel:hover .modal-btn-circle {
-    background: #dc2626;
+    background: var(--color-neutral-800);
 }
 
 /* ========================================
@@ -2238,13 +2238,14 @@ footer {
     padding: 1.5rem;
     background: var(--color-neutral-100);
     min-height: 200px;
-    max-height: 60vh;
-    overflow: hidden;
+    max-height: 70vh;
 }
 
 .preview-image-wrapper img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
     object-fit: contain;
     border-radius: calc(var(--radius) / 2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
