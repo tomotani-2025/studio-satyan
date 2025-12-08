@@ -539,86 +539,6 @@
             return newAngle;
         }
 
-        // Initialize collage
-        function initCollage() {
-            positions = generateMosaicLayout(images.length);
-            collage.innerHTML = '';
-            collageItems = [];
-
-            // Set initial rotation (no transition on start)
-            collageContainer.style.transition = 'none';
-            setCollageRotation(getRandomRotation());
-            collageContainer.offsetHeight; // Force reflow
-            collageContainer.style.transition = '';
-
-            // Always start with hero image (index 0)
-            const startingIndex = 0;
-            activeImageIndex = startingIndex;
-
-            const wrapper = document.querySelector('.collage-wrapper');
-
-            images.forEach((src, index) => {
-                const pos = positions[index];
-                if (!pos) return;
-
-                const item = document.createElement('div');
-                item.className = 'collage-item';
-                item.dataset.index = index;
-                // Random drift delay so images are out of phase
-                item.style.setProperty('--drift-delay', `${Math.random() * -8}s`);
-
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = 'Studio Satyan Footwear';
-                img.loading = index === startingIndex ? 'eager' : 'lazy';
-
-                // Add loaded class when image loads (triggers fade-in and hides shimmer)
-                img.onload = () => {
-                    img.classList.add('loaded');
-                    item.classList.add('loaded');
-                };
-                // Handle cached images that may have already loaded
-                if (img.complete) {
-                    img.classList.add('loaded');
-                    item.classList.add('loaded');
-                }
-
-                item.appendChild(img);
-                item.addEventListener('click', () => handleImageClick(index));
-
-                if (index === startingIndex) {
-                    // Start this image as expanded (no animation)
-                    item.style.transition = 'none';
-                    item.style.position = 'absolute';
-                    item.style.left = '0px';
-                    item.style.top = '0px';
-                    item.style.width = '100%';
-                    item.style.height = '100%';
-                    item.style.zIndex = 50;
-                    item.style.transform = 'rotate(0deg)';
-                    item.classList.add('expanded');
-                    wrapper.appendChild(item);
-
-                    // Re-enable transitions after a frame
-                    requestAnimationFrame(() => {
-                        item.style.transition = '';
-                    });
-
-                    isExpanded = true;
-                } else {
-                    // Regular collage item
-                    item.style.width = `${pos.width}%`;
-                    item.style.height = `${pos.height}%`;
-                    item.style.left = `${pos.left}%`;
-                    item.style.top = `${pos.top}%`;
-                    item.style.zIndex = pos.zIndex;
-                    collage.appendChild(item);
-                }
-
-                collageItems[index] = item;
-            });
-        }
-
         // Store the rotation at time of expand so we can counter it
         let expandedAtRotation = 0;
 
@@ -675,14 +595,11 @@
             item.style.height = `${wrapperRect.height}px`;
             item.style.transform = 'rotate(0deg)';
 
-            // Rotate the collage while covered by the expanded image
-            setTimeout(() => {
-                rotateWhileCovered();
-            }, 400);
-
             // Animation complete after expand transition (800ms)
+            // Then rotate the collage while covered by the expanded image
             setTimeout(() => {
                 isAnimating = false;
+                rotateWhileCovered();
             }, 800);
 
         }
@@ -1368,13 +1285,124 @@
         });
         canvas.addEventListener('touchend', stopDrawing);
 
-        // Initialize - load images from server first, then start collage
+        // Initialize - load hero image first, then rest of collage
         window.addEventListener('load', async () => {
             await loadCollageImages();
-            initCollage();
             setupCanvas();
-            startCycle();
+
+            // Load hero image first (index 0), wait for it, then load rest
+            await initHeroFirst();
         });
+
+        // Load hero image first, then initialize rest of collage after hero loads
+        async function initHeroFirst() {
+            positions = generateMosaicLayout(images.length);
+            collage.innerHTML = '';
+            collageItems = [];
+
+            // Set initial rotation (no transition on start)
+            collageContainer.style.transition = 'none';
+            setCollageRotation(getRandomRotation());
+            collageContainer.offsetHeight; // Force reflow
+            collageContainer.style.transition = '';
+
+            const wrapper = document.querySelector('.collage-wrapper');
+            const startingIndex = 0;
+            activeImageIndex = startingIndex;
+
+            // Create hero image first
+            const heroSrc = images[startingIndex];
+            const heroItem = document.createElement('div');
+            heroItem.className = 'collage-item';
+            heroItem.dataset.index = startingIndex;
+            heroItem.style.setProperty('--drift-delay', `${Math.random() * -8}s`);
+
+            const heroImg = document.createElement('img');
+            heroImg.src = heroSrc;
+            heroImg.alt = 'Studio Satyan Footwear';
+            heroImg.loading = 'eager';
+
+            heroItem.appendChild(heroImg);
+            heroItem.addEventListener('click', () => handleImageClick(startingIndex));
+
+            // Start hero as expanded (no animation)
+            heroItem.style.transition = 'none';
+            heroItem.style.position = 'absolute';
+            heroItem.style.left = '0px';
+            heroItem.style.top = '0px';
+            heroItem.style.width = '100%';
+            heroItem.style.height = '100%';
+            heroItem.style.zIndex = 50;
+            heroItem.style.transform = 'rotate(0deg)';
+            heroItem.classList.add('expanded');
+            wrapper.appendChild(heroItem);
+
+            requestAnimationFrame(() => {
+                heroItem.style.transition = '';
+            });
+
+            isExpanded = true;
+            collageItems[startingIndex] = heroItem;
+
+            // Wait for hero image to load
+            await new Promise(resolve => {
+                if (heroImg.complete) {
+                    heroImg.classList.add('loaded');
+                    heroItem.classList.add('loaded');
+                    resolve();
+                } else {
+                    heroImg.onload = () => {
+                        heroImg.classList.add('loaded');
+                        heroItem.classList.add('loaded');
+                        resolve();
+                    };
+                    heroImg.onerror = resolve; // Continue even if error
+                }
+            });
+
+            // Now load the rest of the collage images
+            images.forEach((src, index) => {
+                if (index === startingIndex) return; // Skip hero
+
+                const pos = positions[index];
+                if (!pos) return;
+
+                const item = document.createElement('div');
+                item.className = 'collage-item';
+                item.dataset.index = index;
+                item.style.setProperty('--drift-delay', `${Math.random() * -8}s`);
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Studio Satyan Footwear';
+                img.loading = 'lazy';
+
+                img.onload = () => {
+                    img.classList.add('loaded');
+                    item.classList.add('loaded');
+                };
+                if (img.complete) {
+                    img.classList.add('loaded');
+                    item.classList.add('loaded');
+                }
+
+                item.appendChild(img);
+                item.addEventListener('click', () => handleImageClick(index));
+
+                item.style.width = `${pos.width}%`;
+                item.style.height = `${pos.height}%`;
+                item.style.left = `${pos.left}%`;
+                item.style.top = `${pos.top}%`;
+                item.style.zIndex = pos.zIndex;
+                collage.appendChild(item);
+
+                collageItems[index] = item;
+            });
+
+            // Show timer and start cycle after hero is loaded
+            timerElement.classList.add('visible');
+            startCycle();
+        }
 
         // Debounced resize handler to prevent flicker
         let resizeTimeout;

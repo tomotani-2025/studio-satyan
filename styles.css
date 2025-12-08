@@ -257,7 +257,16 @@ p {
     opacity: 1;
 }
 
-/* Shimmer loading placeholder */
+/* Hero image (expanded on load) shows immediately - no shimmer */
+.collage-item.expanded img {
+    opacity: 1;
+}
+
+.collage-item.expanded::before {
+    display: none;
+}
+
+/* Shimmer loading placeholder for collage images only */
 .collage-item::before {
     content: '';
     position: absolute;
@@ -320,12 +329,12 @@ p {
     justify-content: center;
     z-index: 100;
     pointer-events: none;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
 }
 
 .logo-overlay img {
-    width: 66.67%;
-    max-width: 42rem;
+    width: 75%;
+    max-width: 50rem;
     filter: brightness(0) invert(1);
 }
 
@@ -339,14 +348,20 @@ p {
 
 /* Cycle Timer - bottom left, vertical */
 .cycle-timer {
-    position: absolute;
-    bottom: 3rem;
-    left: 3rem;
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 3px;
     z-index: 102;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cycle-timer.visible {
+    opacity: 1;
 }
 
 .timer-dot {
