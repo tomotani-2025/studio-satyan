@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Studio Satyan</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="has-hamburger">
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+            <svg fill="none" viewBox="0 0 24 18">
+                <path clip-rule="evenodd" d="M0 1.5C0 0.67158 0.67158 0 1.5 0H22.5C23.3284 0 24 0.67158 24 1.5C24 2.32842 23.3284 3 22.5 3H1.5C0.67158 3 0 2.32842 0 1.5ZM0 9C0 8.17155 0.67158 7.5 1.5 7.5H22.5C23.3284 7.5 24 8.17155 24 9C24 9.82845 23.3284 10.5 22.5 10.5H1.5C0.67158 10.5 0 9.82845 0 9ZM0 16.5C0 15.6716 0.67158 15 1.5 15H22.5C23.3284 15 24 15.6716 24 16.5C24 17.3284 23.3284 18 22.5 18H1.5C0.67158 18 0 17.3284 0 16.5Z" fill="#090909" fill-rule="evenodd"/>
+            </svg>
+        </button>
+        <div class="hamburger-dropdown" id="hamburgerDropdown">
+            <a href="index.html"><p>Home</p></a>
+            <a href="about.html" class="active"><p>About</p></a>
+            <a href="contact.html"><p>Contact</p></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="about-page">
+        <div class="about-container">
+            <h1>ABOUT STUDIO SATYAN</h1>
+
+            <!-- Designer Photo -->
+            <div class="about-hero-image">
+                <img src="_Images/Satyan-About.png" alt="Satyan">
+            </div>
+
+            <div class="about-content">
+                <section class="about-section">
+                    <h2>THE DESIGNER</h2>
+                    <p>Studio Satyan represents a bold vision in contemporary footwear design, where traditional craftsmanship meets cutting-edge innovation. Founded by visionary designer Satyan, the studio has become synonymous with boundary-pushing creativity and meticulous attention to detail.</p>
+                    <p>With a deep respect for artisanal techniques and an eye toward the future, every piece tells a story of dedication, precision, and artistic expression.</p>
+                </section>
+
+                <section class="about-section">
+                    <h2>PHILOSOPHY</h2>
+                    <p>At Studio Satyan, we believe that footwear is more than just function—it's an extension of personal identity and artistic expression. Each design is carefully considered, balancing aesthetic innovation with ergonomic excellence.</p>
+                    <p>Our approach combines sustainable practices with premium materials, ensuring that every creation is not only beautiful but also built to last.</p>
+                </section>
+
+                <section class="about-section">
+                    <h2>PROCESS</h2>
+                    <p>From initial sketch to final product, our design process is a journey of exploration and refinement. We work closely with master craftspeople, utilizing both time-honored techniques and modern technology to bring each vision to life.</p>
+                </section>
+
+                <section class="about-section contact-info">
+                    <h3>GET IN TOUCH</h3>
+                    <p>For inquiries and collaborations:</p>
+                    <p class="email">info@studiosatyan.com</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; STUDIO SATYAN 2025</p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            document.getElementById('hamburgerDropdown').classList.toggle('open');
+        });
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.getElementById('hamburgerDropdown').classList.remove('open');
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.about-section').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

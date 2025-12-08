@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Studio Satyan</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="has-hamburger admin-body">
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+            <svg fill="none" viewBox="0 0 24 18">
+                <path clip-rule="evenodd" d="M0 1.5C0 0.67158 0.67158 0 1.5 0H22.5C23.3284 0 24 0.67158 24 1.5C24 2.32842 23.3284 3 22.5 3H1.5C0.67158 3 0 2.32842 0 1.5ZM0 9C0 8.17155 0.67158 7.5 1.5 7.5H22.5C23.3284 7.5 24 8.17155 24 9C24 9.82845 23.3284 10.5 22.5 10.5H1.5C0.67158 10.5 0 9.82845 0 9ZM0 16.5C0 15.6716 0.67158 15 1.5 15H22.5C23.3284 15 24 15.6716 24 16.5C24 17.3284 23.3284 18 22.5 18H1.5C0.67158 18 0 17.3284 0 16.5Z" fill="#090909" fill-rule="evenodd"/>
+            </svg>
+        </button>
+        <div class="hamburger-dropdown" id="hamburgerDropdown">
+            <a href="index.html"><p>Home</p></a>
+            <a href="about.html"><p>About</p></a>
+            <a href="contact.html"><p>Contact</p></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="admin-page">
+        <div class="admin-container">
+            <h1>ADMIN PANEL</h1>
+            <p class="admin-intro">Manage your website content</p>
+
+            <!-- Tab Navigation -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="collage">Collage Images</button>
+                <button class="admin-tab" data-tab="about">About Page</button>
+                <button class="admin-tab" data-tab="contact">Contact Page</button>
+            </div>
+
+            <!-- Collage Images Section -->
+            <section class="admin-section" id="collage-section">
+                <h2>COLLAGE IMAGES</h2>
+                <p class="section-desc">Add or remove images from the home page collage.</p>
+
+                <!-- Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <p>Drag & drop images here or <span class="upload-link">browse</span></p>
+                    <p class="upload-hint">Supports JPG, PNG, WEBP</p>
+                    <input type="file" id="imageUpload" accept="image/*" multiple hidden>
+                </div>
+
+                <!-- Image Grid -->
+                <div class="image-grid" id="imageGrid">
+                    <!-- Images will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- About Page Section -->
+            <section class="admin-section hidden" id="about-section">
+                <h2>ABOUT PAGE CONTENT</h2>
+                <p class="section-desc">Edit the content displayed on the About page.</p>
+
+                <!-- About Image -->
+                <div class="form-group">
+                    <label>DESIGNER PHOTO</label>
+                    <div class="image-preview-container">
+                        <img src="_Images/Satyan-About.png" alt="Current designer photo" id="aboutImagePreview">
+                        <div class="image-preview-overlay">
+                            <button class="change-image-btn" id="changeAboutImage">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                    <circle cx="12" cy="13" r="4"/>
+                                </svg>
+                                Change Photo
+                            </button>
+                        </div>
+                    </div>
+                    <input type="file" id="aboutImageUpload" accept="image/*" hidden>
+                </div>
+
+                <!-- Page Title -->
+                <div class="form-group">
+                    <label for="aboutTitle">PAGE TITLE</label>
+                    <input type="text" id="aboutTitle" value="ABOUT STUDIO SATYAN">
+                </div>
+
+                <!-- The Designer Section -->
+                <div class="form-group">
+                    <label for="designerTitle">THE DESIGNER - HEADING</label>
+                    <input type="text" id="designerTitle" value="THE DESIGNER">
+                </div>
+                <div class="form-group">
+                    <label for="designerContent">THE DESIGNER - CONTENT</label>
+                    <textarea id="designerContent" rows="6">Studio Satyan represents a bold vision in contemporary footwear design, where traditional craftsmanship meets cutting-edge innovation. Founded by visionary designer Satyan, the studio has become synonymous with boundary-pushing creativity and meticulous attention to detail.
+
+With a deep respect for artisanal techniques and an eye toward the future, every piece tells a story of dedication, precision, and artistic expression.</textarea>
+                </div>
+
+                <!-- Philosophy Section -->
+                <div class="form-group">
+                    <label for="philosophyTitle">PHILOSOPHY - HEADING</label>
+                    <input type="text" id="philosophyTitle" value="PHILOSOPHY">
+                </div>
+                <div class="form-group">
+                    <label for="philosophyContent">PHILOSOPHY - CONTENT</label>
+                    <textarea id="philosophyContent" rows="6">At Studio Satyan, we believe that footwear is more than just function—it's an extension of personal identity and artistic expression. Each design is carefully considered, balancing aesthetic innovation with ergonomic excellence.
+
+Our approach combines sustainable practices with premium materials, ensuring that every creation is not only beautiful but also built to last.</textarea>
+                </div>
+
+                <!-- Process Section -->
+                <div class="form-group">
+                    <label for="processTitle">PROCESS - HEADING</label>
+                    <input type="text" id="processTitle" value="PROCESS">
+                </div>
+                <div class="form-group">
+                    <label for="processContent">PROCESS - CONTENT</label>
+                    <textarea id="processContent" rows="4">From initial sketch to final product, our design process is a journey of exploration and refinement. We work closely with master craftspeople, utilizing both time-honored techniques and modern technology to bring each vision to life.</textarea>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="form-group">
+                    <label for="aboutContactTitle">GET IN TOUCH - HEADING</label>
+                    <input type="text" id="aboutContactTitle" value="GET IN TOUCH">
+                </div>
+                <div class="form-group">
+                    <label for="aboutContactText">GET IN TOUCH - TEXT</label>
+                    <input type="text" id="aboutContactText" value="For inquiries and collaborations:">
+                </div>
+                <div class="form-group">
+                    <label for="aboutEmail">EMAIL</label>
+                    <input type="email" id="aboutEmail" value="info@studiosatyan.com">
+                </div>
+
+                <button class="save-btn" id="saveAbout">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save About Page
+                </button>
+            </section>
+
+            <!-- Contact Page Section -->
+            <section class="admin-section hidden" id="contact-section">
+                <h2>CONTACT PAGE CONTENT</h2>
+                <p class="section-desc">Edit the content and form settings on the Contact page.</p>
+
+                <!-- Page Header -->
+                <div class="form-group">
+                    <label for="contactTitle">PAGE TITLE</label>
+                    <input type="text" id="contactTitle" value="GET IN TOUCH">
+                </div>
+                <div class="form-group">
+                    <label for="contactIntro">INTRO TEXT</label>
+                    <textarea id="contactIntro" rows="2">Have a question or want to collaborate?
+Drop us a message and we'll get back to you as soon as possible.</textarea>
+                </div>
+
+                <!-- Form Fields Configuration -->
+                <h3 class="subsection-title">FORM FIELDS</h3>
+                <div class="form-fields-config">
+                    <div class="field-config">
+                        <div class="field-header">
+                            <span class="field-name">Name Field</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="nameFieldEnabled" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <input type="text" id="nameFieldLabel" value="NAME *" placeholder="Field Label">
+                        <input type="text" id="nameFieldPlaceholder" value="Your name" placeholder="Placeholder">
+                    </div>
+                    <div class="field-config">
+                        <div class="field-header">
+                            <span class="field-name">Email Field</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="emailFieldEnabled" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <input type="text" id="emailFieldLabel" value="EMAIL *" placeholder="Field Label">
+                        <input type="text" id="emailFieldPlaceholder" value="your@email.com" placeholder="Placeholder">
+                    </div>
+                    <div class="field-config">
+                        <div class="field-header">
+                            <span class="field-name">Subject Field</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="subjectFieldEnabled" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <input type="text" id="subjectFieldLabel" value="SUBJECT *" placeholder="Field Label">
+                        <input type="text" id="subjectFieldPlaceholder" value="What is this about?" placeholder="Placeholder">
+                    </div>
+                    <div class="field-config">
+                        <div class="field-header">
+                            <span class="field-name">Message Field</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="messageFieldEnabled" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <input type="text" id="messageFieldLabel" value="MESSAGE *" placeholder="Field Label">
+                        <input type="text" id="messageFieldPlaceholder" value="Tell us more..." placeholder="Placeholder">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <label for="submitBtnText">SUBMIT BUTTON TEXT</label>
+                    <input type="text" id="submitBtnText" value="Send Message">
+                </div>
+
+                <!-- Success Message -->
+                <h3 class="subsection-title">SUCCESS MESSAGE</h3>
+                <div class="form-group">
+                    <label for="successTitle">SUCCESS TITLE</label>
+                    <input type="text" id="successTitle" value="MESSAGE SENT!">
+                </div>
+                <div class="form-group">
+                    <label for="successText">SUCCESS TEXT</label>
+                    <input type="text" id="successText" value="Thank you for reaching out. We'll be in touch soon.">
+                </div>
+
+                <!-- Contact Info -->
+                <h3 class="subsection-title">CONTACT INFORMATION</h3>
+                <div class="form-group">
+                    <label for="contactEmail">EMAIL</label>
+                    <input type="email" id="contactEmail" value="hello@studiosatyan.com">
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">PHONE</label>
+                    <input type="tel" id="contactPhone" value="+1 (555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label for="contactLocation">LOCATION</label>
+                    <input type="text" id="contactLocation" value="New York, NY">
+                </div>
+
+                <button class="save-btn" id="saveContact">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save Contact Page
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal hidden" id="deleteModal">
+        <div class="modal-content">
+            <h3 class="modal-title">DELETE IMAGE?</h3>
+            <p>Are you sure you want to remove this image from the collage?</p>
+            <div class="modal-buttons">
+                <button class="modal-round-btn cancel" id="cancelDelete">
+                    <div class="modal-btn-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </div>
+                    <span class="modal-btn-label">Cancel</span>
+                </button>
+                <button class="modal-round-btn delete-confirm" id="confirmDelete">
+                    <div class="modal-btn-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <span class="modal-btn-label">Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <span class="toast-message"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; STUDIO SATYAN 2025</p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            document.getElementById('hamburgerDropdown').classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.getElementById('hamburgerDropdown').classList.remove('open');
+            }
+        });
+
+        // Tab Navigation
+        const tabs = document.querySelectorAll('.admin-tab');
+        const sections = document.querySelectorAll('.admin-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show corresponding section
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                    if (section.id === `${targetTab}-section`) {
+                        section.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = toast.querySelector('.toast-message');
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ================================
+        // COLLAGE IMAGE MANAGEMENT
+        // ================================
+
+        // Sample images from _Images/Home-Collage/
+        const collageImages = [
+            '44c931601f5cd938be7f14ea40ce9f15.jpeg',
+            '484d4d30-7464-4d13-a928-63556b1a2bbd.jpeg',
+            '522847C5-37E2-4342-A104-0CF1EDB7179A.jpeg',
+            '5479ec54-2926-408d-8f77-1a8165f09939.jpeg',
+            '56642875880__73CE31CD-B414-4A49-BC85-C61C33189B9A.jpeg',
+            '58888336679__0C0F3E01-6CEA-4934-919E-E7EDB16429DB.jpeg',
+            '626af402-4e3c-4cb9-b3a7-2ca376076c9f.jpeg',
+            '72220589324__AF576498-CAE7-43AD-A3BE-D90CB4BDE137.jpeg',
+            '843ac80c-7d99-457e-b06c-e73479fad93f.jpeg',
+            'A715D6ED-2551-4A95-95DF-3B8DF02D5BB8.jpeg',
+            'afd4ac2f-23f1-466b-a105-39d211c1beff.jpeg',
+            'c3f8d966-26f8-40c2-9dd7-5f5e5fc804b7.jpeg',
+            'cf36a9f84bd09b7cf065ad38b32a9969.jpeg',
+            'color perspective.jpeg',
+            'corre 2 botinha.273.jpeg',
+            'e2106001-b1d4-499e-8d1c-36d648d56501.jpeg',
+            'FOAM SHOE Heel Tan.979.png',
+            'hero-1.png',
+            'IMG_0104.jpeg',
+            'IMG_0253.jpeg',
+            'IMG_0315.jpeg',
+            'IMG_0389.jpeg',
+            'IMG_0530.jpeg',
+            'IMG_0556.jpeg',
+            'IMG_0628.jpeg',
+            'IMG_0654.jpeg',
+            'IMG_0829.jpeg',
+            'IMG_0980.jpeg',
+            'IMG_1281.jpeg',
+            'IMG_1574.jpeg',
+            'IMG_2028.jpeg',
+            'IMG_2184.jpeg',
+            'IMG_2284.jpeg',
+            'IMG_2285.jpeg',
+            'IMG_2286.jpeg',
+            'IMG_3083.jpeg',
+            'IMG_4777.jpeg',
+            'IMG_5141.jpeg',
+            'IMG_6036.jpeg',
+            'IMG_6062.jpeg',
+            'IMG_7053.jpeg',
+            'IMG_9133.jpeg'
+        ];
+
+        const imageGrid = document.getElementById('imageGrid');
+        const uploadArea = document.getElementById('uploadArea');
+        const imageUpload = document.getElementById('imageUpload');
+        const deleteModal = document.getElementById('deleteModal');
+        let imageToDelete = null;
+
+        // Render image grid
+        function renderImageGrid() {
+            imageGrid.innerHTML = '';
+            collageImages.forEach((image, index) => {
+                const imageCard = document.createElement('div');
+                imageCard.className = 'image-card';
+                imageCard.innerHTML = `
+                    <img src="_Images/Home-Collage/${encodeURIComponent(image)}" alt="${image}" loading="lazy">
+                    <div class="image-overlay">
+                        <span class="image-name">${image}</span>
+                        <button class="delete-image-btn" data-index="${index}" title="Delete image">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                imageGrid.appendChild(imageCard);
+            });
+
+            // Add delete button listeners
+            document.querySelectorAll('.delete-image-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    imageToDelete = parseInt(btn.dataset.index);
+                    deleteModal.classList.remove('hidden');
+                });
+            });
+        }
+
+        // Initialize image grid
+        renderImageGrid();
+
+        // Upload area interactions
+        uploadArea.addEventListener('click', () => imageUpload.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    // In a real implementation, this would upload to the server
+                    // For now, we'll simulate adding the image
+                    collageImages.push(file.name);
+                    showToast(`Added: ${file.name}`);
+                }
+            });
+            renderImageGrid();
+        }
+
+        // Delete modal interactions
+        document.getElementById('cancelDelete').addEventListener('click', () => {
+            deleteModal.classList.add('hidden');
+            imageToDelete = null;
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            if (imageToDelete !== null) {
+                const imageName = collageImages[imageToDelete];
+                collageImages.splice(imageToDelete, 1);
+                renderImageGrid();
+                showToast(`Deleted: ${imageName}`);
+            }
+            deleteModal.classList.add('hidden');
+            imageToDelete = null;
+        });
+
+        // Close modal on backdrop click
+        deleteModal.addEventListener('click', (e) => {
+            if (e.target === deleteModal) {
+                deleteModal.classList.add('hidden');
+                imageToDelete = null;
+            }
+        });
+
+        // ================================
+        // ABOUT PAGE MANAGEMENT
+        // ================================
+
+        const aboutImageUpload = document.getElementById('aboutImageUpload');
+        const aboutImagePreview = document.getElementById('aboutImagePreview');
+        const changeAboutImage = document.getElementById('changeAboutImage');
+
+        changeAboutImage.addEventListener('click', () => aboutImageUpload.click());
+
+        aboutImageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    aboutImagePreview.src = e.target.result;
+                    showToast('Image updated - remember to save!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('saveAbout').addEventListener('click', () => {
+            // Collect all about page data
+            const aboutData = {
+                title: document.getElementById('aboutTitle').value,
+                designer: {
+                    title: document.getElementById('designerTitle').value,
+                    content: document.getElementById('designerContent').value
+                },
+                philosophy: {
+                    title: document.getElementById('philosophyTitle').value,
+                    content: document.getElementById('philosophyContent').value
+                },
+                process: {
+                    title: document.getElementById('processTitle').value,
+                    content: document.getElementById('processContent').value
+                },
+                contact: {
+                    title: document.getElementById('aboutContactTitle').value,
+                    text: document.getElementById('aboutContactText').value,
+                    email: document.getElementById('aboutEmail').value
+                }
+            };
+
+            // In a real implementation, this would save to the server
+            console.log('About page data:', aboutData);
+            localStorage.setItem('aboutPageData', JSON.stringify(aboutData));
+            showToast('About page saved successfully!');
+        });
+
+        // Load saved about data
+        const savedAboutData = localStorage.getItem('aboutPageData');
+        if (savedAboutData) {
+            const data = JSON.parse(savedAboutData);
+            document.getElementById('aboutTitle').value = data.title || '';
+            document.getElementById('designerTitle').value = data.designer?.title || '';
+            document.getElementById('designerContent').value = data.designer?.content || '';
+            document.getElementById('philosophyTitle').value = data.philosophy?.title || '';
+            document.getElementById('philosophyContent').value = data.philosophy?.content || '';
+            document.getElementById('processTitle').value = data.process?.title || '';
+            document.getElementById('processContent').value = data.process?.content || '';
+            document.getElementById('aboutContactTitle').value = data.contact?.title || '';
+            document.getElementById('aboutContactText').value = data.contact?.text || '';
+            document.getElementById('aboutEmail').value = data.contact?.email || '';
+        }
+
+        // ================================
+        // CONTACT PAGE MANAGEMENT
+        // ================================
+
+        document.getElementById('saveContact').addEventListener('click', () => {
+            // Collect all contact page data
+            const contactData = {
+                title: document.getElementById('contactTitle').value,
+                intro: document.getElementById('contactIntro').value,
+                fields: {
+                    name: {
+                        enabled: document.getElementById('nameFieldEnabled').checked,
+                        label: document.getElementById('nameFieldLabel').value,
+                        placeholder: document.getElementById('nameFieldPlaceholder').value
+                    },
+                    email: {
+                        enabled: document.getElementById('emailFieldEnabled').checked,
+                        label: document.getElementById('emailFieldLabel').value,
+                        placeholder: document.getElementById('emailFieldPlaceholder').value
+                    },
+                    subject: {
+                        enabled: document.getElementById('subjectFieldEnabled').checked,
+                        label: document.getElementById('subjectFieldLabel').value,
+                        placeholder: document.getElementById('subjectFieldPlaceholder').value
+                    },
+                    message: {
+                        enabled: document.getElementById('messageFieldEnabled').checked,
+                        label: document.getElementById('messageFieldLabel').value,
+                        placeholder: document.getElementById('messageFieldPlaceholder').value
+                    }
+                },
+                submitBtn: document.getElementById('submitBtnText').value,
+                success: {
+                    title: document.getElementById('successTitle').value,
+                    text: document.getElementById('successText').value
+                },
+                info: {
+                    email: document.getElementById('contactEmail').value,
+                    phone: document.getElementById('contactPhone').value,
+                    location: document.getElementById('contactLocation').value
+                }
+            };
+
+            // In a real implementation, this would save to the server
+            console.log('Contact page data:', contactData);
+            localStorage.setItem('contactPageData', JSON.stringify(contactData));
+            showToast('Contact page saved successfully!');
+        });
+
+        // Load saved contact data
+        const savedContactData = localStorage.getItem('contactPageData');
+        if (savedContactData) {
+            const data = JSON.parse(savedContactData);
+            document.getElementById('contactTitle').value = data.title || '';
+            document.getElementById('contactIntro').value = data.intro || '';
+
+            if (data.fields) {
+                document.getElementById('nameFieldEnabled').checked = data.fields.name?.enabled ?? true;
+                document.getElementById('nameFieldLabel').value = data.fields.name?.label || '';
+                document.getElementById('nameFieldPlaceholder').value = data.fields.name?.placeholder || '';
+
+                document.getElementById('emailFieldEnabled').checked = data.fields.email?.enabled ?? true;
+                document.getElementById('emailFieldLabel').value = data.fields.email?.label || '';
+                document.getElementById('emailFieldPlaceholder').value = data.fields.email?.placeholder || '';
+
+                document.getElementById('subjectFieldEnabled').checked = data.fields.subject?.enabled ?? true;
+                document.getElementById('subjectFieldLabel').value = data.fields.subject?.label || '';
+                document.getElementById('subjectFieldPlaceholder').value = data.fields.subject?.placeholder || '';
+
+                document.getElementById('messageFieldEnabled').checked = data.fields.message?.enabled ?? true;
+                document.getElementById('messageFieldLabel').value = data.fields.message?.label || '';
+                document.getElementById('messageFieldPlaceholder').value = data.fields.message?.placeholder || '';
+            }
+
+            document.getElementById('submitBtnText').value = data.submitBtn || '';
+            document.getElementById('successTitle').value = data.success?.title || '';
+            document.getElementById('successText').value = data.success?.text || '';
+            document.getElementById('contactEmail').value = data.info?.email || '';
+            document.getElementById('contactPhone').value = data.info?.phone || '';
+            document.getElementById('contactLocation').value = data.info?.location || '';
+        }
+    </script>
+</body>
+</html>

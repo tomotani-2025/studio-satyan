@@ -1,0 +1,37 @@
+# Archive and backup folders
+_Archive/
+
+# Deploy copy (duplicate of main files)
+StudioSatyanDeploy/
+
+# React/Vite version (separate project)
+StudioSatyanWebsite-V2/
+
+# Reference components (not needed for production)
+Three Page Website/
+
+# Bug recordings (not needed for production)
+Bugs/
+
+# Development files
+.claude/
+.claudeignore
+PROJECT_OVERVIEW.md
+
+# Source photos (only Home-Collage needed)
+_Images/photos/
+_Images/ToddSelects/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.swp
+*.swo
+.vscode/
+*.code-workspace
+
+# Logs
+*.log

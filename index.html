@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Satyan | Innovative Footwear Design</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="has-hamburger">
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+            <svg fill="none" viewBox="0 0 24 18">
+                <path clip-rule="evenodd" d="M0 1.5C0 0.67158 0.67158 0 1.5 0H22.5C23.3284 0 24 0.67158 24 1.5C24 2.32842 23.3284 3 22.5 3H1.5C0.67158 3 0 2.32842 0 1.5ZM0 9C0 8.17155 0.67158 7.5 1.5 7.5H22.5C23.3284 7.5 24 8.17155 24 9C24 9.82845 23.3284 10.5 22.5 10.5H1.5C0.67158 10.5 0 9.82845 0 9ZM0 16.5C0 15.6716 0.67158 15 1.5 15H22.5C23.3284 15 24 15.6716 24 16.5C24 17.3284 23.3284 18 22.5 18H1.5C0.67158 18 0 17.3284 0 16.5Z" fill="white" fill-rule="evenodd"/>
+            </svg>
+        </button>
+        <div class="hamburger-dropdown" id="hamburgerDropdown">
+            <a href="index.html" class="active"><p>Home</p></a>
+            <a href="about.html"><p>About</p></a>
+            <a href="contact.html"><p>Contact</p></a>
+        </div>
+    </div>
+
+    <script>
+        // Hamburger menu toggle
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            document.getElementById('hamburgerDropdown').classList.toggle('open');
+        });
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.getElementById('hamburgerDropdown').classList.remove('open');
+            }
+        });
+    </script>
+
+    <!-- Main Content -->
+    <main class="home-page">
+        <div class="collage-wrapper">
+            <div class="collage-container" id="collageContainer">
+                <div class="collage-inner" id="collage">
+                    <!-- Images populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Dimming Overlay -->
+            <div class="dimming-overlay"></div>
+
+            <!-- Logo Overlay -->
+            <div class="logo-overlay">
+                <img src="_Images/LOGO/StudioSatyanBirdie.svg" alt="Studio Satyan">
+            </div>
+
+            <!-- Drawing Canvas -->
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <!-- Drawing Controls - V2 Figma Design -->
+        <div class="drawing-controls" id="drawingControls">
+            <!-- Pen button (shown when inactive) -->
+            <button class="v2-tool-btn pen-btn" id="penBtn" title="Doodle">
+                <svg class="v2-tool-icon" fill="none" viewBox="0 0 35 36">
+                    <defs>
+                        <clipPath id="penClip">
+                            <rect width="35" height="36"/>
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#penClip)">
+                        <path d="M16.9217 2.36885e-05C15.7555 -0.0215177 11.7286 1.01893 10.0795 2.02276C8.38083 3.05675 6.27687 4.93301 4.19446 7.57398C2.78031 9.36838 1.0191 13.1726 0.383172 15.6068C-0.438151 18.7475 -0.147131 25.2056 3.33649 29.4967C5.38656 32.0213 8.52095 34.5912 12.5845 35.4787C16.178 36.265 20.9917 36.1099 23.2121 35.3581C25.4324 34.6085 29.7137 31.2846 31.3283 28.9474C34.6007 24.2104 35.851 19.4928 34.4023 14.4328C33.1046 9.90046 30.7549 6.21472 28.7803 4.46125C25.8744 1.8849 21.7764 0.467472 19.9031 0.249904C19.1895 0.165893 18.0858 0.0215651 16.9217 2.36885e-05Z" fill="white"/>
+                        <path d="M17.5298 10.2669C17.6259 10.2596 17.7228 10.2859 17.822 10.3552C18.1073 10.5339 18.6135 10.9337 19.0785 11.2677C19.5778 11.6396 19.4117 11.5046 20.1377 11.9697C20.864 12.4347 21.6517 12.9064 22.6156 13.7518C23.5795 14.5973 24.1267 14.7791 24.5529 15.4107C24.8056 15.7852 24.7901 15.8225 24.0576 16.59C22.3593 18.3698 21.4934 19.7004 20.2498 21.1641C19.3992 22.1714 18.4578 23.4986 17.1648 24.5021C16.7822 24.7988 16.6146 24.814 16.1427 24.5942C15.6833 24.3801 15.4061 24.1095 14.9117 23.6624C14.5766 23.3591 13.913 23.0611 12.9826 22.2637C12.0522 21.4663 11.7471 21.3858 10.5683 20.4405C9.82891 19.8475 9.8259 19.8405 10.055 19.2281C10.1816 18.8893 10.4706 18.6339 10.971 18.0263C12.2104 16.5183 13.1563 15.3867 14.0996 14.0926C14.533 13.4977 15.4549 12.3955 16.217 11.5452C16.7127 10.9685 17.1133 10.2994 17.5298 10.2669Z" fill="black"/>
+                        <path d="M20.7882 6.00254C20.8251 5.9977 20.8588 5.9998 20.8889 6.01013C21.3691 6.17492 24.8891 8.61626 26.9052 10.2874C28.1142 11.2896 28.1179 11.6936 27.8708 11.953C27.7295 12.1014 26.8176 13.1689 26.5116 13.5655C26.2053 13.9615 26.1478 14.0344 26.0501 14.0205C25.9524 14.0066 25.0451 13.3658 24.0333 12.5964C23.0218 11.827 21.6489 10.8627 20.9825 10.4534C20.3161 10.0442 19.4855 9.4514 19.1364 9.13614C18.5783 8.63165 18.5268 8.52038 18.7075 8.21018C18.9662 7.76574 20.2352 6.0763 20.7882 6.00254Z" fill="black"/>
+                        <path d="M8.76988 21.7146L9.1591 21.8553C9.37314 21.9329 10.5384 22.8643 11.4832 23.5867C12.4281 24.3091 13.8394 25.1006 14.3301 25.584L15.2503 26.2639C12.6767 27.3854 11.0161 28.1682 10.7027 28.3111C9.87356 28.6776 8.91458 28.9134 8.41351 28.9975C7.78277 29.0622 8.04619 27.8115 8.10437 27.2682C8.29951 25.1404 8.5142 23.8381 8.76988 21.7146Z" fill="black"/>
+                    </g>
+                </svg>
+            </button>
+
+            <!-- Active toolbar (shown when pen is active) -->
+            <div class="v2-toolbar hidden" id="activeToolbar">
+                <!-- Share button -->
+                <button class="v2-tool-btn share-btn" id="shareBtn" title="Save/Share">
+                    <svg class="v2-tool-icon" fill="none" viewBox="0 0 36 37">
+                        <path d="M18.6772 0.000147388C16.8362 0.0166229 13.4416 0.600019 12.3689 1.08414C11.7806 1.34966 10.7655 1.77718 10.1126 2.03411C9.46021 2.29101 6.38488 4.0816 4.82923 6.15394C2.74944 8.92455 2.01876 10.5679 1.13489 13.3266C0.567455 15.0977 -0.308715 16.7217 0.109289 20.3215C0.505898 23.7356 1.18787 25.2983 2.17568 27.4628C2.98648 29.2391 5.20178 32.0406 8.77727 34.4978C12.1719 36.8307 14.9512 37.2726 18.1882 36.8655C22.479 36.3258 25.1332 35.0702 27.4811 33.461C32.2676 30.1802 35.4092 25.7585 35.913 20.3717C36.1778 17.5416 35.8923 15.7075 34.3004 12.0627C32.5493 8.05345 29.5052 4.277 26.7072 2.60908C23.4259 0.653124 19.9614 -0.0113939 18.6772 0.000147388Z" fill="white"/>
+                        <path d="M21.8978 8.00028C22.3655 8.0058 22.8237 8.09278 23.2182 8.25541C23.4758 8.36153 24.2216 8.87188 24.4848 9.23455C24.7132 9.54938 24.9427 10.052 24.9814 10.8556C25.0279 11.8225 25.0378 12.2031 24.377 13.185C23.7614 14.0995 23.2554 14.4536 22.151 14.6759C21.5359 14.7997 20.6388 14.672 19.8031 14.1436C19.6114 14.0223 18.7861 14.5316 18.5553 14.6674C18.3061 14.8141 17.1831 15.5283 15.9173 16.4468L14.4663 17.4997L14.54 17.641C14.8727 18.2779 14.8219 18.9179 14.5758 19.6746C14.439 20.0953 15.1355 20.3413 16.2141 20.9414C16.7788 21.2556 17.8289 21.8694 18.2231 22.0146C18.8877 22.2594 19.2472 22.4221 19.4671 22.1851C19.8582 21.7635 20.8994 21.5422 21.7107 21.5868C23.2655 21.7507 24.3888 22.6468 24.531 23.8046C24.6367 24.6659 24.5785 25.5947 24.1171 26.3566C23.1646 27.9298 22.0012 28.0641 20.8414 27.9814C19.5637 27.8902 18.979 27.3733 18.4454 26.2144C18.1867 25.6527 18.1647 25.3165 18.1981 24.6925C18.2157 24.3627 18.2904 24.247 18.2659 24.1596C18.2274 24.0214 16.4136 22.8758 16.1873 22.8758C16.1411 22.8758 15.8229 22.7117 15.48 22.5111C15.1372 22.3105 14.3501 21.9987 13.8178 21.7527L13.1235 21.3706L12.3304 21.7325C11.5342 22.0957 10.6667 22.1071 10.3367 21.9917C9.60766 21.7367 8.80389 21.1385 8.35799 20.3522C8.00629 19.732 7.94918 18.8355 8.03574 18.2523C8.26913 16.6802 9.22833 15.9208 10.1786 15.5978C10.9942 15.3206 11.6684 15.3351 12.3179 15.4684L12.8864 15.7469L14.8988 14.5141C15.6995 13.9375 16.5689 13.4548 17.1222 13.0647C17.8089 12.5804 18.6048 12.2932 18.4411 11.8401C18.0753 10.8283 18.6406 9.5596 19.7301 8.67888C20.3124 8.20822 21.1183 7.99108 21.8978 8.00028Z" fill="black"/>
+                    </svg>
+                </button>
+
+                <!-- Eraser button -->
+                <button class="v2-tool-btn eraser-btn" id="eraserBtn" title="Eraser">
+                    <svg class="v2-tool-icon" fill="none" viewBox="0 0 35 36">
+                        <path d="M16.9217 0.000328864C15.7555 -0.0212125 11.7286 1.01924 10.0795 2.02307C8.38083 3.05705 6.27687 4.93331 4.19446 7.57429C2.78031 9.36869 1.0191 13.1729 0.383172 15.6071C-0.438151 18.7478 -0.147131 25.2059 3.33649 29.497C5.38656 32.0216 8.52095 34.5915 12.5845 35.479C16.178 36.2653 20.9917 36.1102 23.2121 35.3584C25.4324 34.6088 29.7137 31.2849 31.3283 28.9477C34.6007 24.2107 35.851 19.4931 34.4023 14.4331C33.1046 9.90076 30.7549 6.21503 28.7803 4.46156C25.8744 1.8852 21.7764 0.467777 19.9031 0.250209C19.1895 0.166198 18.0858 0.0218703 16.9217 0.000328864Z" fill="white" class="eraser-bg"/>
+                        <path d="M16.0421 12.289C16.1424 12.2811 16.2434 12.3091 16.3469 12.3829C16.6446 12.573 17.1728 12.9982 17.658 13.3535C18.179 13.7492 18.0057 13.6055 18.7632 14.1002C19.521 14.5949 20.3429 15.0966 21.3486 15.996C22.3544 16.8953 22.9254 17.0888 23.37 17.7606C23.6337 18.159 23.6175 18.1986 22.8533 19.015C21.0812 20.9083 20.1778 22.3237 18.8802 23.8808C17.9927 24.9523 17.0104 26.3641 15.6613 27.4316C15.2621 27.7472 15.0872 27.7633 14.5948 27.5295C14.1154 27.3018 13.8263 27.0139 13.3104 26.5383C12.9607 26.2157 12.2683 25.8987 11.2975 25.0505C10.3267 24.2022 10.0084 24.1166 8.7784 23.111C8.00694 22.4802 8.0038 22.4728 8.24281 21.8214C8.37497 21.4609 8.67648 21.1892 9.19862 20.543C10.4918 18.9388 11.4787 17.7351 12.463 16.3585C12.9152 15.7256 13.8771 14.5533 14.6723 13.6487C15.1895 13.0352 15.6075 12.3235 16.0421 12.289Z" fill="black"/>
+                        <path d="M19.4419 7.75275C19.4804 7.74759 19.5156 7.74983 19.547 7.76082C20.0481 7.93611 23.7208 10.5331 25.8244 12.3107C27.0859 13.3768 27.0897 13.8066 26.8319 14.0825C26.6845 14.2403 25.733 15.3759 25.4138 15.7978C25.0941 16.219 25.0341 16.2966 24.9322 16.2818C24.8302 16.267 23.8836 15.5853 22.8279 14.7669C21.7724 13.9485 20.3399 12.9227 19.6446 12.4873C18.9493 12.052 18.0827 11.4214 17.7184 11.0861C17.136 10.5494 17.0823 10.4311 17.2709 10.1011C17.5408 9.62834 18.8649 7.8312 19.4419 7.75275Z" fill="black"/>
+                        <path d="M8.45249 26.342C8.48063 26.3152 8.5104 26.2964 8.54223 26.2868C9.05065 26.1341 22.2808 26.0763 25.0275 26.278C26.6748 26.399 26.4568 26.2008 26.7829 26.3638C26.8995 26.4426 26.8501 26.5071 26.8399 27.036C26.8288 27.5647 26.8259 27.6627 26.7347 27.7106C26.6435 27.7586 25.477 27.7635 24.1419 27.7219C22.8069 27.6802 11.4892 27.6172 10.6708 27.6737C9.85243 27.7302 9.40294 27.7295 8.91116 27.6723C8.12455 27.5804 8.09641 27.5595 8.05504 27.1817C7.99553 26.6406 8.03178 26.7447 8.45249 26.342Z" fill="black"/>
+                    </svg>
+                </button>
+
+                <!-- Line Weight button -->
+                <button class="v2-tool-btn size-btn" id="sizeBtn" title="Line Weight">
+                    <svg class="v2-tool-icon" fill="none" viewBox="0 0 35 36">
+                        <path d="M16.9217 0.000328864C15.7555 -0.0212125 11.7286 1.01924 10.0795 2.02307C8.38083 3.05705 6.27687 4.93331 4.19446 7.57429C2.78031 9.36869 1.0191 13.1729 0.383172 15.6071C-0.438151 18.7478 -0.147131 25.2059 3.33649 29.497C5.38656 32.0216 8.52095 34.5915 12.5845 35.479C16.178 36.2653 20.9917 36.1102 23.2121 35.3584C25.4324 34.6088 29.7137 31.2849 31.3283 28.9477C34.6007 24.2107 35.851 19.4931 34.4023 14.4331C33.1046 9.90076 30.7549 6.21503 28.7803 4.46156C25.8744 1.8852 21.7764 0.467777 19.9031 0.250209C19.1895 0.166198 18.0858 0.0218703 16.9217 0.000328864Z" fill="white" class="size-btn-bg"/>
+                        <path d="M8.05737 23.0835C9.05032 22.4336 10.3284 22.4849 11.4684 22.7726C12.2262 22.9636 13.1993 23.1728 13.6417 22.5039C14.0055 21.9541 13.71 21.2116 13.4225 20.6147C13.1039 19.9532 12.7989 19.272 12.6861 18.5419C12.5733 17.8118 12.6742 17.0156 13.1063 16.4286C13.5178 15.868 14.1835 15.5588 14.8531 15.4488C15.3734 15.3637 15.9104 15.386 16.4228 15.5142C16.9336 15.6423 17.4173 15.8738 17.9337 15.9772C18.4492 16.0805 19.0331 16.0342 19.4247 15.6696C19.9521 15.1776 19.9386 14.3062 19.7289 13.6018C19.5192 12.8974 19.1554 12.2285 19.1149 11.4926C19.037 10.0656 20.4534 8.77 21.803 9.03458C22.9238 9.25368 23.8064 10.326 24.9463 10.3641C25.5571 10.3847 26.2594 10.1235 26.7233 10.5369C27.1419 10.9097 27.0553 11.6613 26.6661 12.0673C26.2768 12.4732 25.693 12.5997 25.1425 12.6195C24.5761 12.6402 24.0066 12.5675 23.4616 12.4046C22.9191 12.2425 22.2113 12.0466 21.8896 12.5294C21.5464 13.0445 22.0493 13.6869 22.3034 14.2549C22.8929 15.5745 21.9571 17.1975 20.6814 17.7936C19.4056 18.3897 17.9353 18.2335 16.5523 18.0226C16.1328 17.959 15.6538 17.9077 15.3329 18.1954C14.9484 18.5402 15.0104 19.1934 15.2535 19.6564C15.4966 20.1194 15.8802 20.4956 16.0915 20.976C16.5753 22.0756 15.9795 23.4456 15.0072 24.107C14.0349 24.7685 12.8013 24.8578 11.6439 24.7503C10.9099 24.6825 9.96384 24.5626 9.41494 25.1959C8.96215 25.7176 9.06224 26.9975 8.15111 27C6.24783 27.0058 7.05887 23.7366 8.05737 23.0835Z" fill="black" id="squigglePath"/>
+                    </svg>
+                </button>
+
+                <!-- Color Wheel button -->
+                <button class="v2-tool-btn color-btn" id="colorBtn" title="Color">
+                    <svg class="v2-tool-icon color-wheel-icon" fill="none" viewBox="-2 -2 39 40" style="overflow: visible;">
+                        <path d="M16.9217 0.000328864C15.7555 -0.0212125 11.7286 1.01924 10.0795 2.02307C8.38083 3.05705 6.27687 4.93331 4.19446 7.57429C2.78031 9.36869 1.0191 13.1729 0.383172 15.6071C-0.438151 18.7478 -0.147131 25.2059 3.33649 29.497C5.38656 32.0216 8.52095 34.5915 12.5845 35.479C16.178 36.2653 20.9917 36.1102 23.2121 35.3584C25.4324 34.6088 29.7137 31.2849 31.3283 28.9477C34.6007 24.2107 35.851 19.4931 34.4023 14.4331C33.1046 9.90076 30.7549 6.21503 28.7803 4.46156C25.8744 1.8852 21.7764 0.467777 19.9031 0.250209C19.1895 0.166198 18.0858 0.0218703 16.9217 0.000328864Z" fill="white" class="color-btn-bg"/>
+                        <defs>
+                            <clipPath id="colorWheelClip">
+                                <path d="M16.9217 0.000328864C15.7555 -0.0212125 11.7286 1.01924 10.0795 2.02307C8.38083 3.05705 6.27687 4.93331 4.19446 7.57429C2.78031 9.36869 1.0191 13.1729 0.383172 15.6071C-0.438151 18.7478 -0.147131 25.2059 3.33649 29.497C5.38656 32.0216 8.52095 34.5915 12.5845 35.479C16.178 36.2653 20.9917 36.1102 23.2121 35.3584C25.4324 34.6088 29.7137 31.2849 31.3283 28.9477C34.6007 24.2107 35.851 19.4931 34.4023 14.4331C33.1046 9.90076 30.7549 6.21503 28.7803 4.46156C25.8744 1.8852 21.7764 0.467777 19.9031 0.250209C19.1895 0.166198 18.0858 0.0218703 16.9217 0.000328864Z"/>
+                            </clipPath>
+                        </defs>
+                        <g clip-path="url(#colorWheelClip)" class="color-wheel-segments">
+                            <path d="M30.619 5.48459L20.8493 15.2456C20.4131 14.799 19.8921 14.4442 19.3168 14.2019C18.7416 13.9595 18.1237 13.8346 17.4995 13.8345V0.0335064C19.938 0.0302228 22.353 0.510273 24.6048 1.44591C26.8567 2.38155 28.9008 3.75422 30.619 5.48459Z" fill="#EF4136"/>
+                            <path d="M17.4994 0.0330077V13.834C16.8751 13.8335 16.257 13.9582 15.6816 14.2007C15.1063 14.4431 14.5853 14.7984 14.1496 15.2456L4.37985 5.48434C6.09783 3.75366 8.1419 2.38076 10.3938 1.44506C12.6458 0.509361 15.0609 0.0294232 17.4994 0.0330077Z" fill="#EE2A7B"/>
+                            <path d="M12.8128 18.5167C12.8122 18.542 12.8134 18.5674 12.8163 18.5926H-1.00054V18.5167C-1.00354 16.0976 -0.529917 13.7015 0.393267 11.4654C1.31645 9.22934 2.67112 7.19703 4.37988 5.48459L14.1496 15.2456C13.2925 16.1186 12.8124 17.2933 12.8128 18.5167Z" fill="#92278F"/>
+                            <path d="M14.2256 21.86L4.45584 31.6211C2.73315 29.9158 1.36431 27.8869 0.427937 25.6511C-0.508434 23.4153 -0.99389 21.0165 -1.00055 18.5925H12.8166C12.8242 19.2032 12.9527 19.8063 13.1945 20.3671C13.4363 20.9279 13.7867 21.4353 14.2256 21.86Z" fill="#27AAE1"/>
+                            <path d="M17.4995 23.1988V36.9998C12.6106 37.006 7.91919 35.0712 4.45588 31.6206L14.2256 21.8595C15.0983 22.7191 16.2745 23.2003 17.4995 23.1988Z" fill="#009444"/>
+                            <path d="M30.5431 31.6211C27.079 35.0706 22.3881 37.0051 17.4995 37.0003V23.1993C18.7242 23.2003 19.9002 22.7194 20.7733 21.8605L30.5431 31.6211Z" fill="#8DC63F"/>
+                            <path d="M35.9995 18.5925C35.9928 21.0165 35.5074 23.4153 34.571 25.6511C33.6346 27.8869 32.2658 29.9158 30.5431 31.6211L20.7734 21.86C21.2116 21.4348 21.5616 20.9273 21.8034 20.3666C22.0451 19.8059 22.1739 19.203 22.1823 18.5925H35.9995Z" fill="#F9ED32"/>
+                            <path d="M35.9995 18.5167V18.5926H22.1823C22.1852 18.5674 22.1863 18.542 22.1858 18.5167C22.1862 17.2933 21.7063 16.1186 20.8493 15.2455L30.6191 5.48434C34.0688 8.94374 36.004 13.6312 35.9995 18.5167Z" fill="#F7941D"/>
+                        </g>
+                    </svg>
+                </button>
+
+                <!-- Close/Clear button -->
+                <button class="v2-tool-btn close-btn" id="clearBtn" title="Close">
+                    <svg class="v2-tool-icon" fill="none" viewBox="0 0 35 36">
+                        <path d="M16.9217 0.000328864C15.7555 -0.0212125 11.7286 1.01924 10.0795 2.02307C8.38083 3.05705 6.27687 4.93331 4.19446 7.57429C2.78031 9.36869 1.0191 13.1729 0.383172 15.6071C-0.438151 18.7478 -0.147131 25.2059 3.33649 29.497C5.38656 32.0216 8.52095 34.5915 12.5845 35.479C16.178 36.2653 20.9917 36.1102 23.2121 35.3584C25.4324 34.6088 29.7137 31.2849 31.3283 28.9477C34.6007 24.2107 35.851 19.4931 34.4023 14.4331C33.1046 9.90076 30.7549 6.21503 28.7803 4.46156C25.8744 1.8852 21.7764 0.467777 19.9031 0.250209C19.1895 0.166198 18.0858 0.0218703 16.9217 0.000328864Z" fill="black"/>
+                        <path d="M26.0489 8.00015C25.5896 8.00733 25.0093 8.28337 24.4125 8.89187C22.0256 11.3257 17.9321 15.599 17.5423 15.7517C17.0052 15.9622 14.9371 13.6227 13.0282 11.5863C12.3044 10.8141 11.1848 9.74149 10.2396 8.80343C8.71616 8.77301 7.20421 9.20524 8.47657 10.8944C10.326 13.3497 14.8104 17.592 14.9978 18.2724C15.1155 18.6995 14.2048 19.1123 13.4553 20.0014C12.8564 20.7119 9.83027 23.5845 8.59194 25.8292C7.61493 27.6003 9.45443 28.622 10.5274 27.5831C13.7018 24.5095 17.0765 20.4538 17.4333 20.4684C17.8462 20.4858 21.6852 25.5755 23.5627 27.1185C24.8169 28.6544 27.6131 27.0216 26.0997 25.7242C24.0417 23.9601 22.4627 21.7621 21.9055 21.318C21.1912 20.7487 19.2675 18.5289 19.566 18.177C20.0344 17.625 21.6417 15.5371 24.0926 13.4533C27.7157 10.3729 27.4268 7.97819 26.0489 8.00015Z" fill="#EF4136"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Line Weight Modal (V2) -->
+        <div class="v2-modal line-weight-modal hidden" id="lineWeightModal">
+            <button class="modal-close-btn" id="lineWeightCloseBtn" title="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <div class="line-weight-content">
+                <!-- Squiggle preview -->
+                <div class="squiggle-preview">
+                    <svg viewBox="0 0 21 19" fill="none">
+                        <path d="M12.9896 0.692818C13.5117 0.215395 14.2189 -0.0505139 14.9125 0.0853964C15.4835 0.197012 15.9935 0.526312 16.4935 0.824654C16.9974 1.12522 17.4929 1.39597 18.0482 1.4145C18.1974 1.41952 18.3534 1.40714 18.5121 1.39204C18.6696 1.37704 18.8311 1.35858 18.9877 1.35297C19.3016 1.34177 19.6102 1.38028 19.8568 1.60004C20.0803 1.79936 20.1665 2.09711 20.1478 2.39301C20.1292 2.68891 20.0055 2.98944 19.8021 3.20161C19.3993 3.6218 18.799 3.74995 18.2445 3.76997C17.6727 3.79084 17.0974 3.71663 16.5473 3.55219C16.2751 3.47091 15.9682 3.38409 15.6908 3.37544C15.4147 3.3669 15.1789 3.43664 15.0316 3.65766C14.8739 3.89459 14.9063 4.1636 15.0189 4.45454C15.0751 4.5996 15.1504 4.74688 15.2279 4.89497C15.3049 5.04207 15.3843 5.19075 15.4486 5.33442C15.7508 6.01101 15.6608 6.76247 15.3363 7.41743C15.0118 8.07222 14.4508 8.63579 13.8021 8.93891C12.5112 9.54202 11.0267 9.38295 9.64492 9.17231C9.43526 9.14049 9.21536 9.11263 9.00917 9.12739C8.80369 9.1421 8.61566 9.19851 8.46621 9.33247C8.28755 9.49268 8.20956 9.727 8.20742 9.98188C8.20531 10.2368 8.27973 10.5078 8.39785 10.7329C8.5173 10.9604 8.67109 11.1672 8.8246 11.3803C8.9773 11.5923 9.12969 11.8106 9.23769 12.0561C9.73349 13.1836 9.12146 14.5775 8.13515 15.2485C7.14858 15.9195 5.90092 16.0077 4.73964 15.8998C4.37073 15.8658 3.95575 15.8197 3.56484 15.8598C3.17533 15.8998 2.81612 16.0253 2.55312 16.3286C2.4465 16.4514 2.37026 16.6218 2.30214 16.8139C2.2682 16.9097 2.2359 17.0099 2.20351 17.1108C2.17127 17.2112 2.13878 17.313 2.10195 17.4106C2.02854 17.6051 1.93819 17.7892 1.80507 17.9252C1.67003 18.0632 1.49265 18.1492 1.25136 18.1498C0.758307 18.1513 0.434714 17.9393 0.249409 17.6069C0.0664043 17.2785 0.0215103 16.8382 0.0667922 16.3842C0.112221 15.9291 0.248924 15.4533 0.437886 15.0502C0.626165 14.6488 0.869348 14.3127 1.13027 14.142C2.14073 13.4807 3.43587 13.5348 4.58046 13.8237C4.95972 13.9193 5.38626 14.0184 5.77187 14.0112C6.15633 14.0039 6.491 13.8917 6.6996 13.5766C6.8715 13.3168 6.8904 13.0087 6.82753 12.687C6.76451 12.3647 6.62047 12.0347 6.47695 11.7368C6.15844 11.0754 5.8508 10.3879 5.73671 9.64985C5.62264 8.91157 5.72397 8.10058 6.1664 7.49946C6.58791 6.92523 7.26679 6.61084 7.94472 6.49946C8.40588 6.42398 8.88028 6.43181 9.33925 6.52192L9.53457 6.56587L9.91738 6.67817C10.0435 6.71979 10.1682 6.7648 10.2924 6.80805C10.5416 6.89484 10.789 6.97685 11.0434 7.02778C11.5518 7.1297 12.116 7.08162 12.4906 6.73286C12.7428 6.49759 12.8682 6.16929 12.9037 5.81001C12.9392 5.45071 12.8841 5.0637 12.7807 4.71626C12.6762 4.36525 12.5352 4.02647 12.4115 3.67524C12.2888 3.32665 12.1861 2.97011 12.1654 2.59516C12.1256 1.86446 12.4677 1.1703 12.9896 0.692818Z" fill="black" stroke="black" id="lineWeightSquiggle" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <!-- Slider -->
+                <div class="line-weight-slider-container" id="lineWeightSlider">
+                    <div class="line-weight-slider-track">
+                        <svg class="line-weight-track-svg" viewBox="0 0 212 16" preserveAspectRatio="none">
+                            <mask id="lineWeightMask" maskUnits="userSpaceOnUse" x="0" y="0" width="212" height="16">
+                                <rect fill="#D9D9D9" height="16" rx="8" width="212"/>
+                            </mask>
+                            <g mask="url(#lineWeightMask)">
+                                <path d="M-2.5 7.99525L212.876 -0.25V16.25L-2.5 7.99525Z" fill="black"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="line-weight-thumb" id="lineWeightThumb"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Selector Modal (V2) -->
+        <div class="v2-modal color-selector-modal hidden" id="colorSelectorModal">
+            <button class="modal-close-btn" id="colorSelectorCloseBtn" title="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <!-- Eyedropper icon -->
+            <div class="eyedropper-icon" id="eyedropperBtn" title="Pick color from screen">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M19.589 4.411C18.9791 3.8023 18.1527 3.46043 17.291 3.46043C16.4293 3.46043 15.6029 3.8023 14.993 4.411L13.004 6.4C12.253 5.956 11.209 6.075 10.574 6.709C10.196 7.087 9.988 7.589 9.988 8.124C9.988 8.659 10.196 9.16 10.574 9.538L5.094 15.018C4.83826 15.2728 4.6356 15.5759 4.49777 15.9096C4.35993 16.2433 4.28965 16.601 4.291 16.962C4.291 17.438 4.422 17.89 4.646 18.294L3.68 19.26C3.54331 19.4014 3.46763 19.5908 3.46924 19.7875C3.47086 19.9841 3.54965 20.1722 3.68864 20.3114C3.82763 20.4505 4.0157 20.5295 4.21235 20.5313C4.409 20.5331 4.59848 20.4576 4.74 20.321L5.705 19.356C6.101 19.578 6.539 19.707 6.992 19.707H7.064C7.42053 19.7068 7.77349 19.636 8.10251 19.4987C8.43154 19.3614 8.73011 19.1603 8.981 18.907L14.461 13.427C14.839 13.805 15.341 14.013 15.875 14.013C16.409 14.013 16.912 13.805 17.289 13.427C17.667 13.049 17.875 12.547 17.875 12.013C17.875 11.65 17.779 11.301 17.599 10.997L19.588 9.008C20.1965 8.398 20.5382 7.57158 20.5382 6.71C20.5382 5.84842 20.1965 5.022 19.588 4.412L19.589 4.411ZM7.921 17.847C7.80367 17.9635 7.66423 18.0554 7.51087 18.1172C7.35751 18.179 7.19333 18.2096 7.028 18.207C6.7012 18.2039 6.38816 18.075 6.154 17.847C5.92 17.613 5.79 17.299 5.79 16.963C5.79 16.627 5.919 16.314 6.154 16.079L11.634 10.599L13.402 12.367L7.921 17.847ZM18.528 7.947L16.053 10.422C15.9833 10.4916 15.928 10.5744 15.8903 10.6654C15.8526 10.7564 15.8332 10.854 15.8332 10.9525C15.8332 11.051 15.8526 11.1486 15.8903 11.2396C15.928 11.3306 15.9833 11.4133 16.053 11.483L16.23 11.66C16.325 11.755 16.376 11.88 16.376 12.014C16.376 12.148 16.324 12.273 16.229 12.368C16.134 12.4594 16.0073 12.5104 15.8755 12.5104C15.7437 12.5104 15.617 12.4594 15.522 12.368L11.633 8.479C11.5629 8.40907 11.5151 8.3199 11.4958 8.22279C11.4764 8.12568 11.4863 8.02501 11.5242 7.93354C11.5621 7.84206 11.6264 7.76391 11.7087 7.70898C11.7911 7.65405 11.888 7.62482 11.987 7.625C12.0527 7.62488 12.1178 7.63772 12.1785 7.66277C12.2393 7.68782 12.2945 7.7246 12.341 7.771L12.518 7.948C12.5876 8.01769 12.6704 8.07298 12.7614 8.1107C12.8524 8.14842 12.95 8.16784 13.0485 8.16784C13.147 8.16784 13.2446 8.14842 13.3356 8.1107C13.4266 8.07298 13.5094 8.01769 13.579 7.948L16.054 5.473C16.3828 5.14599 16.8277 4.96244 17.2915 4.96244C17.7553 4.96244 18.2002 5.14599 18.529 5.473C18.8565 5.80158 19.0404 6.24658 19.0404 6.7105C19.0404 7.17442 18.8565 7.61942 18.529 7.948L18.528 7.947Z" fill="black"/>
+                </svg>
+            </div>
+            <!-- Sliders container -->
+            <div class="color-sliders">
+                <!-- Hue slider -->
+                <div class="color-slider-row hue-slider-row" id="hueSliderRow">
+                    <div class="color-slider-track hue-track"></div>
+                    <div class="color-slider-thumb hue-thumb" id="hueThumb"></div>
+                </div>
+                <!-- Saturation slider -->
+                <div class="color-slider-row sat-slider-row" id="satSliderRow">
+                    <div class="color-slider-track sat-track" id="satTrack"></div>
+                    <div class="color-slider-thumb sat-thumb" id="satThumb"></div>
+                </div>
+                <!-- Brightness slider -->
+                <div class="color-slider-row val-slider-row" id="valSliderRow">
+                    <div class="color-slider-track val-track" id="valTrack"></div>
+                    <div class="color-slider-thumb val-thumb" id="valThumb"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Close Modal -->
+        <div class="modal hidden" id="confirmCloseModal">
+            <div class="modal-content">
+                <h3 class="modal-title">CLOSING WILL ERASE YOUR DOODLE</h3>
+                <div class="modal-buttons">
+                    <button class="modal-round-btn cancel" id="confirmCloseYes">
+                        <div class="modal-btn-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="modal-btn-label">CLOSE</span>
+                    </button>
+                    <button class="modal-round-btn save" id="confirmCloseNo">
+                        <div class="modal-btn-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </div>
+                        <span class="modal-btn-label">CANCEL</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save/Share Modal -->
+        <div class="modal hidden" id="saveModal">
+            <div class="modal-content">
+                <h3 class="modal-title">SAVE OR SHARE YOUR DOODLE</h3>
+                <div class="modal-buttons">
+                    <button class="modal-round-btn save" id="saveToDevice">
+                        <div class="modal-btn-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </div>
+                        <span class="modal-btn-label">SAVE</span>
+                    </button>
+                    <button class="modal-round-btn share" id="shareImage">
+                        <div class="modal-btn-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="5" r="3"/>
+                                <circle cx="6" cy="12" r="3"/>
+                                <circle cx="18" cy="19" r="3"/>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                            </svg>
+                        </div>
+                        <span class="modal-btn-label">SHARE</span>
+                    </button>
+                    <button class="modal-round-btn cancel" id="cancelSave">
+                        <div class="modal-btn-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </div>
+                        <span class="modal-btn-label">CANCEL</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="home-footer">
+            <p>© STUDIO SATYAN 2025</p>
+        </footer>
+    </main>
+
+    <script>
+        // Image data from Home-Collage folder
+        // Hero image is first - always starts expanded
+        const HERO_IMAGE = '_Images/Home-Collage/hero-1.png';
+        const images = [
+            HERO_IMAGE,
+            '_Images/Home-Collage/44c931601f5cd938be7f14ea40ce9f15.jpeg',
+            '_Images/Home-Collage/484d4d30-7464-4d13-a928-63556b1a2bbd.jpeg',
+            '_Images/Home-Collage/522847C5-37E2-4342-A104-0CF1EDB7179A.jpeg',
+            '_Images/Home-Collage/5479ec54-2926-408d-8f77-1a8165f09939.jpeg',
+            '_Images/Home-Collage/56642875880__73CE31CD-B414-4A49-BC85-C61C33189B9A.jpeg',
+            '_Images/Home-Collage/58888336679__0C0F3E01-6CEA-4934-919E-E7EDB16429DB.jpeg',
+            '_Images/Home-Collage/626af402-4e3c-4cb9-b3a7-2ca376076c9f.jpeg',
+            '_Images/Home-Collage/72220589324__AF576498-CAE7-43AD-A3BE-D90CB4BDE137.jpeg',
+            '_Images/Home-Collage/843ac80c-7d99-457e-b06c-e73479fad93f.jpeg',
+            '_Images/Home-Collage/A715D6ED-2551-4A95-95DF-3B8DF02D5BB8.jpeg',
+            '_Images/Home-Collage/afd4ac2f-23f1-466b-a105-39d211c1beff.jpeg',
+            '_Images/Home-Collage/c3f8d966-26f8-40c2-9dd7-5f5e5fc804b7.jpeg',
+            '_Images/Home-Collage/cf36a9f84bd09b7cf065ad38b32a9969.jpeg',
+            '_Images/Home-Collage/color perspective.jpeg',
+            '_Images/Home-Collage/corre 2 botinha.273.jpeg',
+            '_Images/Home-Collage/e2106001-b1d4-499e-8d1c-36d648d56501.jpeg',
+            '_Images/Home-Collage/FOAM SHOE Heel Tan.979.png',
+            '_Images/Home-Collage/IMG_0104.jpeg',
+            '_Images/Home-Collage/IMG_0253.jpeg',
+            '_Images/Home-Collage/IMG_0315.jpeg',
+            '_Images/Home-Collage/IMG_0389.jpeg',
+            '_Images/Home-Collage/IMG_0530.jpeg',
+            '_Images/Home-Collage/IMG_0556.jpeg',
+            '_Images/Home-Collage/IMG_0628.jpeg',
+            '_Images/Home-Collage/IMG_0654.jpeg',
+            '_Images/Home-Collage/IMG_0829.jpeg',
+            '_Images/Home-Collage/IMG_0980.jpeg',
+            '_Images/Home-Collage/IMG_1281.jpeg',
+            '_Images/Home-Collage/IMG_1574.jpeg',
+            '_Images/Home-Collage/IMG_2028.jpeg',
+            '_Images/Home-Collage/IMG_2184.jpeg',
+            '_Images/Home-Collage/IMG_2284.jpeg',
+            '_Images/Home-Collage/IMG_2285.jpeg',
+            '_Images/Home-Collage/IMG_2286.jpeg',
+            '_Images/Home-Collage/IMG_3083.jpeg',
+            '_Images/Home-Collage/IMG_4777.jpeg',
+            '_Images/Home-Collage/IMG_5141.jpeg',
+            '_Images/Home-Collage/IMG_6036.jpeg',
+            '_Images/Home-Collage/IMG_6062.jpeg',
+            '_Images/Home-Collage/IMG_7053.jpeg',
+            '_Images/Home-Collage/IMG_9133.jpeg',
+        ];
+
+        // State
+        let positions = [];
+        let activeImageIndex = 0;
+        let lastExpandedIndex = -1;
+        let isExpanded = false;
+        let isPenActive = false;
+        let isEraser = false;
+        let isDrawing = false;
+        let penSize = 5;
+        let penHue = 0;
+        let penSat = 100;
+        let penBright = 50;
+        let driftInterval = null;
+        let collageItems = [];
+        let currentCollageRotation = 0;
+
+        // Elements
+        const collage = document.getElementById('collage');
+        const collageContainer = document.getElementById('collageContainer');
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Organic layout configuration
+        const MAX_OVERLAP_PERCENT = 0.15; // Maximum 15% of an image can be covered
+
+        // Size templates - 25% smaller, more dramatic size variation
+        const sizeTemplates = [
+            { minW: 9, maxW: 14, minH: 11, maxH: 17 },    // Extra Small
+            { minW: 14, maxW: 20, minH: 15, maxH: 21 },   // Small
+            { minW: 20, maxW: 29, minH: 21, maxH: 32 },   // Medium
+            { minW: 29, maxW: 41, minH: 30, maxH: 44 },   // Large
+            { minW: 38, maxW: 53, minH: 34, maxH: 49 },   // Extra Large
+            { minW: 23, maxW: 41, minH: 11, maxH: 19 },   // Wide panoramic
+            { minW: 11, maxW: 18, minH: 26, maxH: 41 },   // Tall portrait
+        ];
+
+        // Calculate overlap between two rectangles
+        function getOverlapPercent(rect1, rect2) {
+            const overlapLeft = Math.max(rect1.left, rect2.left);
+            const overlapRight = Math.min(rect1.left + rect1.width, rect2.left + rect2.width);
+            const overlapTop = Math.max(rect1.top, rect2.top);
+            const overlapBottom = Math.min(rect1.top + rect1.height, rect2.top + rect2.height);
+
+            if (overlapLeft >= overlapRight || overlapTop >= overlapBottom) {
+                return 0;
+            }
+
+            const overlapArea = (overlapRight - overlapLeft) * (overlapBottom - overlapTop);
+            const rect2Area = rect2.width * rect2.height;
+
+            return overlapArea / rect2Area;
+        }
+
+        // Check if position is valid (not too much overlap with higher z-index items)
+        function isValidPosition(newRect, existingPositions, newZIndex) {
+            for (const pos of existingPositions) {
+                if (!pos) continue;
+                // Only check overlap if this image would be underneath
+                if (pos.zIndex > newZIndex) {
+                    const overlap = getOverlapPercent(pos, newRect);
+                    if (overlap > MAX_OVERLAP_PERCENT) return false;
+                }
+            }
+            return true;
+        }
+
+        // Generate organic overlapping layout
+        function generateMosaicLayout(imageCount) {
+            const positions = [];
+            const shuffledIndices = [...Array(imageCount).keys()].sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < imageCount; i++) {
+                const imageIndex = shuffledIndices[i];
+                const template = sizeTemplates[Math.floor(Math.random() * sizeTemplates.length)];
+
+                const width = template.minW + Math.random() * (template.maxW - template.minW);
+                const height = template.minH + Math.random() * (template.maxH - template.minH);
+
+                // Calculate area - larger images get lower z-index (further back)
+                // Smaller images get higher z-index (closer/on top)
+                const area = width * height;
+                const maxArea = 53 * 49; // Largest possible
+                const minArea = 9 * 11;  // Smallest possible
+                // Invert: small area = high z, large area = low z
+                const normalizedArea = (area - minArea) / (maxArea - minArea);
+                const zIndex = Math.floor((1 - normalizedArea) * 28) + 2; // Range 2-30, inverted
+
+                // Try to find a valid position
+                let attempts = 0;
+                let placed = false;
+
+                while (attempts < 50 && !placed) {
+                    // Random position with some margin
+                    const left = -5 + Math.random() * (105 - width);
+                    const top = -5 + Math.random() * (105 - height);
+
+                    const newRect = { left, top, width, height, zIndex };
+
+                    if (isValidPosition(newRect, positions, zIndex)) {
+                        // Add slight random offset for organic feel
+                        const offsetX = (Math.random() - 0.5) * 3;
+                        const offsetY = (Math.random() - 0.5) * 3;
+
+                        positions[imageIndex] = {
+                            left: left + offsetX,
+                            top: top + offsetY,
+                            width,
+                            height,
+                            zIndex,
+                            // Store drift phase for continuous animation
+                            driftPhase: Math.random() * Math.PI * 2,
+                            driftSpeed: 0.3 + Math.random() * 0.4
+                        };
+                        placed = true;
+                    }
+                    attempts++;
+                }
+
+                // Fallback: place anyway if couldn't find valid spot
+                if (!placed) {
+                    const left = Math.random() * (100 - width);
+                    const top = Math.random() * (100 - height);
+                    positions[imageIndex] = {
+                        left,
+                        top,
+                        width,
+                        height,
+                        zIndex,
+                        driftPhase: Math.random() * Math.PI * 2,
+                        driftSpeed: 0.3 + Math.random() * 0.4
+                    };
+                }
+            }
+
+            return positions;
+        }
+
+        // Continuous drift animation - runs forever, never stops
+        let driftAnimationId = null;
+        let driftGlobalStart = performance.now();
+        let driftEnabled = true;
+        let driftIntensity = 1; // Multiplier for smooth resume (0-1)
+        let driftResumeStart = null; // Timestamp when drift was re-enabled
+        let isShuffling = false; // Pause drift during shuffle transitions
+
+        function startContinuousDrift() {
+            if (driftAnimationId) return;
+
+            function animateDrift(currentTime) {
+                // Early exit when drift is disabled (drawing mode) or shuffling - skip all processing
+                if (!driftEnabled || isShuffling) {
+                    if (driftAnimationId) cancelAnimationFrame(driftAnimationId);
+                    driftAnimationId = requestAnimationFrame(animateDrift);
+                    return;
+                }
+
+                // Smooth resume: ease intensity from 0 to 1 over 500ms
+                if (driftResumeStart !== null) {
+                    const resumeElapsed = currentTime - driftResumeStart;
+                    driftIntensity = Math.min(1, resumeElapsed / 500);
+                    if (driftIntensity >= 1) {
+                        driftResumeStart = null; // Resume complete
+                    }
+                }
+
+                const elapsed = (currentTime - driftGlobalStart) / 1000;
+
+                collageItems.forEach((item, i) => {
+                    if (!item || !positions[i]) return;
+                    // Skip items not in the collage (expanded or being animated)
+                    if (item.parentElement !== collage) return;
+
+                    const pos = positions[i];
+                    const phase = pos.driftPhase || 0;
+                    const speed = pos.driftSpeed || 0.5;
+
+                    const driftX = Math.sin(elapsed * speed + phase) * 4 * driftIntensity;
+                    const driftY = Math.cos(elapsed * speed * 0.7 + phase) * 3 * driftIntensity;
+                    const rotate = Math.sin(elapsed * speed * 0.5 + phase) * 0.5 * driftIntensity;
+
+                    if (isExpanded) {
+                        item.style.transform = `translate(${driftX * 1.5}px, ${driftY * 1.5}px) rotate(${rotate}deg)`;
+                    } else {
+                        item.style.transform = `translate(${driftX}px, ${driftY}px) rotate(${rotate * 0.3}deg)`;
+                    }
+                });
+
+                if (driftAnimationId) cancelAnimationFrame(driftAnimationId);
+                driftAnimationId = requestAnimationFrame(animateDrift);
+            }
+
+            driftAnimationId = requestAnimationFrame(animateDrift);
+        }
+
+        // Set collage rotation (±60 degrees max)
+        function setCollageRotation(angle) {
+            currentCollageRotation = angle;
+            // Calculate scale needed to fill container when rotated
+            // sqrt(2) ≈ 1.414 is the diagonal ratio needed for any rotation angle
+            const finalScale = Math.SQRT2 * 1.15; // ~1.63, ensures full coverage at all angles
+
+            collageContainer.style.transform = `rotate(${angle}deg) scale(${finalScale})`;
+        }
+
+        // Generate random rotation for collage - ensures noticeable change from current
+        function getRandomRotation() {
+            // Random angle between -45 and +45 degrees
+            // Ensure at least 20 degrees difference from current rotation
+            let newAngle;
+            do {
+                newAngle = (Math.random() - 0.5) * 90;
+            } while (Math.abs(newAngle - currentCollageRotation) < 20);
+            return newAngle;
+        }
+
+        // Initialize collage
+        function initCollage() {
+            positions = generateMosaicLayout(images.length);
+            collage.innerHTML = '';
+            collageItems = [];
+
+            // Set initial rotation (no transition on start)
+            collageContainer.style.transition = 'none';
+            setCollageRotation(getRandomRotation());
+            collageContainer.offsetHeight; // Force reflow
+            collageContainer.style.transition = '';
+
+            // Always start with hero image (index 0)
+            const startingIndex = 0;
+            activeImageIndex = startingIndex;
+
+            const wrapper = document.querySelector('.collage-wrapper');
+
+            images.forEach((src, index) => {
+                const pos = positions[index];
+                if (!pos) return;
+
+                const item = document.createElement('div');
+                item.className = 'collage-item';
+                item.dataset.index = index;
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Studio Satyan Footwear';
+                img.loading = index === startingIndex ? 'eager' : 'lazy';
+
+                // Add loaded class when image loads (triggers fade-in and hides shimmer)
+                img.onload = () => {
+                    img.classList.add('loaded');
+                    item.classList.add('loaded');
+                };
+                // Handle cached images that may have already loaded
+                if (img.complete) {
+                    img.classList.add('loaded');
+                    item.classList.add('loaded');
+                }
+
+                item.appendChild(img);
+                item.addEventListener('click', () => handleImageClick(index));
+
+                if (index === startingIndex) {
+                    // Start this image as expanded (no animation)
+                    item.style.transition = 'none';
+                    item.style.position = 'absolute';
+                    item.style.left = '0px';
+                    item.style.top = '0px';
+                    item.style.width = '100%';
+                    item.style.height = '100%';
+                    item.style.zIndex = 50;
+                    item.style.transform = 'rotate(0deg)';
+                    item.classList.add('expanded');
+                    wrapper.appendChild(item);
+
+                    // Re-enable transitions after a frame
+                    requestAnimationFrame(() => {
+                        item.style.transition = '';
+                    });
+
+                    isExpanded = true;
+                } else {
+                    // Regular collage item
+                    item.style.width = `${pos.width}%`;
+                    item.style.height = `${pos.height}%`;
+                    item.style.left = `${pos.left}%`;
+                    item.style.top = `${pos.top}%`;
+                    item.style.zIndex = pos.zIndex;
+                    collage.appendChild(item);
+                }
+
+                collageItems[index] = item;
+            });
+        }
+
+        // Store the rotation at time of expand so we can counter it
+        let expandedAtRotation = 0;
+
+        // Expand an image - move it outside the rotating container
+        function expandImage(index) {
+            const item = collageItems[index];
+            if (!item) return;
+
+            isAnimating = true;
+            isExpanded = true;
+            activeImageIndex = index;
+
+            // Remember the rotation at expand time
+            expandedAtRotation = currentCollageRotation;
+
+            // Drift continues - items not in collage are automatically skipped
+
+            // Get current screen position before moving
+            const itemRect = item.getBoundingClientRect();
+            const wrapper = document.querySelector('.collage-wrapper');
+            const wrapperRect = wrapper.getBoundingClientRect();
+
+            // Calculate position relative to wrapper
+            const startLeft = itemRect.left - wrapperRect.left;
+            const startTop = itemRect.top - wrapperRect.top;
+            const startWidth = itemRect.width;
+            const startHeight = itemRect.height;
+
+            // Move item to the wrapper (outside the rotating container)
+            wrapper.appendChild(item);
+
+            // Disable transitions momentarily to set initial state without animation
+            item.style.transition = 'none';
+            item.style.position = 'absolute';
+            item.style.left = `${startLeft}px`;
+            item.style.top = `${startTop}px`;
+            item.style.width = `${startWidth}px`;
+            item.style.height = `${startHeight}px`;
+            item.style.zIndex = 50;
+            item.style.transform = `rotate(${expandedAtRotation}deg)`;
+            item.style.transformOrigin = 'center center';
+
+            // Force reflow to apply initial state
+            item.offsetHeight;
+
+            // Re-enable transitions and add expanded class
+            item.style.transition = '';
+            item.classList.add('expanded');
+
+            // Animate to fullscreen (0,0 and full width/height of wrapper)
+            item.style.left = '0px';
+            item.style.top = '0px';
+            item.style.width = `${wrapperRect.width}px`;
+            item.style.height = `${wrapperRect.height}px`;
+            item.style.transform = 'rotate(0deg)';
+
+            // Rotate the collage while covered by the expanded image
+            setTimeout(() => {
+                rotateWhileCovered();
+            }, 400);
+
+            // Animation complete after expand transition (800ms)
+            setTimeout(() => {
+                isAnimating = false;
+            }, 800);
+
+        }
+
+        // Collapse current image and shuffle
+        function collapseAndShuffle(skipToNext = true) {
+            const currentItem = collageItems[activeImageIndex];
+            const pos = positions[activeImageIndex];
+            const collapsingIndex = activeImageIndex;
+
+            isAnimating = true;
+            isExpanded = false;
+            lastExpandedIndex = activeImageIndex;
+
+            if (currentItem && pos) {
+                const wrapper = document.querySelector('.collage-wrapper');
+                const wrapperRect = wrapper.getBoundingClientRect();
+
+                // Calculate target position in wrapper coordinates
+                // Get where this item WILL be in the collage after rotation
+                const collageRect = collage.getBoundingClientRect();
+
+                // The collage is rotated, so we need the visual position of where
+                // the item will end up. We'll animate to a reasonable center area
+                // then snap to final position
+
+                // Target: shrink to roughly where it will be in the collage
+                // Use percentage of wrapper as target
+                const targetWidth = (pos.width / 100) * wrapperRect.width * 0.5; // Scale relative to wrapper
+                const targetHeight = (pos.height / 100) * wrapperRect.height * 0.5;
+                const targetLeft = wrapperRect.width / 2 - targetWidth / 2; // Center-ish
+                const targetTop = wrapperRect.height / 2 - targetHeight / 2;
+
+                // Keep in wrapper, animate the collapse
+                currentItem.classList.remove('expanded');
+
+                // Animate shrink and move toward center
+                currentItem.style.left = `${targetLeft}px`;
+                currentItem.style.top = `${targetTop}px`;
+                currentItem.style.width = `${targetWidth}px`;
+                currentItem.style.height = `${targetHeight}px`;
+                currentItem.style.opacity = '0';
+
+                // After animation, move to collage
+                setTimeout(() => {
+                    currentItem.style.transition = 'none';
+                    collage.appendChild(currentItem);
+                    currentItem.style.left = `${pos.left}%`;
+                    currentItem.style.top = `${pos.top}%`;
+                    currentItem.style.width = `${pos.width}%`;
+                    currentItem.style.height = `${pos.height}%`;
+                    currentItem.style.transform = '';
+                    currentItem.style.zIndex = pos.zIndex || 1;
+                    currentItem.offsetHeight; // Force reflow
+                    currentItem.style.transition = '';
+                    currentItem.style.opacity = '1';
+                    isAnimating = false;
+                }, 800); // Match the .expanded transition duration
+            }
+
+            // Shuffle positions with smooth animation
+            shufflePositions();
+
+            if (skipToNext) {
+                // Pick next image (not the one just closed)
+                let nextIndex;
+                do {
+                    nextIndex = Math.floor(Math.random() * images.length);
+                } while (nextIndex === lastExpandedIndex && images.length > 1);
+                activeImageIndex = nextIndex;
+
+                // Preload next few images for instant expansion
+                preloadImages(nextIndex, 3);
+            }
+        }
+
+        // Preload images ahead in the cycle for instant expansion
+        function preloadImages(startIndex, count) {
+            for (let i = 0; i < count; i++) {
+                const index = (startIndex + i) % images.length;
+                const item = collageItems[index];
+                if (item) {
+                    const img = item.querySelector('img');
+                    if (img && img.loading === 'lazy') {
+                        img.loading = 'eager'; // Force load
+                    }
+                }
+            }
+        }
+
+        // Shuffle all positions - staggered for organic movement
+        function shufflePositions() {
+            // Pause drift during shuffle to prevent jitter
+            isShuffling = true;
+
+            // Clear transforms immediately so they don't interfere with CSS transitions
+            collageItems.forEach(item => {
+                if (item && item.parentElement === collage) {
+                    item.style.transform = '';
+                }
+            });
+
+            const newPositions = generateMosaicLayout(images.length);
+
+            // Apply new positions with slight stagger for organic movement
+            collageItems.forEach((item, i) => {
+                if (!item || !newPositions[i]) return;
+                // Skip items not in collage (being animated elsewhere)
+                if (item.parentElement !== collage) return;
+
+                // Stagger: 5ms per image = 0-200ms spread across 40 images
+                const stagger = i * 5;
+                item.style.transitionDelay = `${stagger}ms`;
+
+                const pos = newPositions[i];
+                item.style.width = `${pos.width}%`;
+                item.style.height = `${pos.height}%`;
+                item.style.left = `${pos.left}%`;
+                item.style.top = `${pos.top}%`;
+                item.style.zIndex = pos.zIndex;
+
+                // Clear transition delay after animation completes
+                setTimeout(() => {
+                    if (item) item.style.transitionDelay = '';
+                }, 2000 + stagger);
+            });
+
+            // Update positions reference
+            positions = newPositions;
+
+            // Resume drift smoothly after transitions complete (1.8s + 200ms stagger buffer)
+            setTimeout(() => {
+                isShuffling = false;
+                driftIntensity = 0;
+                driftResumeStart = performance.now();
+            }, 2000);
+        }
+
+        // Rotate collage while covered by expanded image
+        function rotateWhileCovered() {
+            setCollageRotation(getRandomRotation());
+        }
+
+        // Handle image click - expand/collapse
+        let isAnimating = false;
+        function handleImageClick(index) {
+            if (isPenActive || isAnimating) return;
+
+            if (isExpanded && activeImageIndex === index) {
+                // Clicking expanded image: collapse, shuffle, and prepare next
+                collapseAndShuffle(true);
+            } else if (isExpanded) {
+                // Clicking different image while one is expanded: collapse current first
+                const currentItem = collageItems[activeImageIndex];
+                const pos = positions[activeImageIndex];
+                if (currentItem && pos) {
+                    // Move back to collage immediately (no animation for quick switch)
+                    collage.appendChild(currentItem);
+                    currentItem.style.transition = 'none';
+                    currentItem.classList.remove('expanded');
+                    currentItem.style.left = `${pos.left}%`;
+                    currentItem.style.top = `${pos.top}%`;
+                    currentItem.style.width = `${pos.width}%`;
+                    currentItem.style.height = `${pos.height}%`;
+                    currentItem.style.transform = '';
+                    currentItem.style.zIndex = pos.zIndex || 1;
+                    currentItem.offsetHeight; // Force reflow
+                    currentItem.style.transition = '';
+                }
+                isExpanded = false;
+                expandImage(index);
+            } else {
+                // Nothing expanded: expand clicked image
+                expandImage(index);
+            }
+        }
+
+        // Auto-cycle animation
+        let cycleTimer;
+        function startCycle() {
+            if (isPenActive) return;
+
+            cycleTimer = setInterval(() => {
+                if (isPenActive) return;
+
+                if (isExpanded) {
+                    // Collapse and shuffle
+                    collapseAndShuffle(true);
+                } else {
+                    // Expand next image
+                    expandImage(activeImageIndex);
+                }
+            }, 5000);
+        }
+
+        // Canvas setup
+        function setupCanvas() {
+            const wrapper = document.querySelector('.collage-wrapper');
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+        }
+
+        // Get pen color
+        function getPenColor() {
+            return `hsl(${penHue}, ${penSat}%, ${penBright}%)`;
+        }
+
+        // Drawing functions
+        function startDrawing(e) {
+            if (!isPenActive) return;
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.globalCompositeOperation = isEraser ? 'destination-out' : 'source-over';
+            ctx.strokeStyle = isEraser ? 'rgba(0,0,0,1)' : getPenColor();
+            ctx.lineWidth = penSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        // V2 Drawing UI elements
+        const drawingControls = document.getElementById('drawingControls');
+        const penBtn = document.getElementById('penBtn');
+        const activeToolbar = document.getElementById('activeToolbar');
+        const sizeBtn = document.getElementById('sizeBtn');
+        const colorBtn = document.getElementById('colorBtn');
+        const eraserBtn = document.getElementById('eraserBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const lineWeightModal = document.getElementById('lineWeightModal');
+        const colorSelectorModal = document.getElementById('colorSelectorModal');
+        const lineWeightSlider = document.getElementById('lineWeightSlider');
+        const lineWeightThumb = document.getElementById('lineWeightThumb');
+        const lineWeightSquiggle = document.getElementById('lineWeightSquiggle');
+        let hasColorBeenSelected = false;
+
+        // Toggle pen mode - V2 version
+        function activatePenMode() {
+            isPenActive = true;
+            isEraser = false;
+
+            // Show toolbar, hide pen button
+            penBtn.classList.add('hidden');
+            activeToolbar.classList.remove('hidden');
+
+            // Small delay to allow CSS to register the visible state before animating
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    drawingControls.classList.add('active');
+                });
+            });
+
+            canvas.style.pointerEvents = 'auto';
+            updatePenCursor();
+
+            // Pause animation and drift
+            clearInterval(cycleTimer);
+            driftEnabled = false;
+        }
+
+        function deactivatePenMode() {
+            isPenActive = false;
+            isEraser = false;
+
+            // Hide toolbar, show pen button
+            penBtn.classList.remove('hidden');
+            activeToolbar.classList.add('hidden');
+            drawingControls.classList.remove('active');
+
+            // Close modals
+            lineWeightModal.classList.add('hidden');
+            colorSelectorModal.classList.add('hidden');
+            sizeBtn.classList.remove('active');
+            colorBtn.classList.remove('active');
+
+            canvas.style.pointerEvents = 'none';
+            canvas.style.cursor = 'default';
+
+            // Resume animation with smooth drift ease-in
+            startCycle();
+            driftIntensity = 0; // Start from zero
+            driftResumeStart = performance.now(); // Begin ease-in
+            driftEnabled = true;
+        }
+
+        // Check if canvas has any content
+        function canvasHasContent() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            for (let i = 3; i < imageData.data.length; i += 4) {
+                if (imageData.data[i] > 0) return true;
+            }
+            return false;
+        }
+
+        // Clear canvas and exit pen mode
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            deactivatePenMode();
+        }
+
+        // Handle close button click - show confirmation if canvas has content
+        function handleCloseClick() {
+            if (canvasHasContent()) {
+                document.getElementById('confirmCloseModal').classList.remove('hidden');
+            } else {
+                deactivatePenMode();
+            }
+        }
+
+        // Save drawing
+        function saveDrawing() {
+            const compositeCanvas = document.createElement('canvas');
+            compositeCanvas.width = canvas.width;
+            compositeCanvas.height = canvas.height;
+            const compCtx = compositeCanvas.getContext('2d');
+
+            compCtx.fillStyle = '#171717';
+            compCtx.fillRect(0, 0, compositeCanvas.width, compositeCanvas.height);
+            compCtx.drawImage(canvas, 0, 0);
+
+            compositeCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `studio-satyan-doodle-${Date.now()}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Share drawing
+        async function shareDrawing() {
+            const compositeCanvas = document.createElement('canvas');
+            compositeCanvas.width = canvas.width;
+            compositeCanvas.height = canvas.height;
+            const compCtx = compositeCanvas.getContext('2d');
+
+            compCtx.fillStyle = '#171717';
+            compCtx.fillRect(0, 0, compositeCanvas.width, compositeCanvas.height);
+            compCtx.drawImage(canvas, 0, 0);
+
+            compositeCanvas.toBlob(async (blob) => {
+                if (navigator.share) {
+                    try {
+                        const file = new File([blob], 'studio-satyan-doodle.png', { type: 'image/png' });
+                        await navigator.share({
+                            files: [file],
+                            title: 'Studio Satyan Doodle',
+                            text: 'Check out my doodle on Studio Satyan!'
+                        });
+                    } catch (err) {
+                        saveDrawing();
+                    }
+                } else {
+                    saveDrawing();
+                }
+            });
+        }
+
+        // Update color button to show selected color
+        function updateColorButton() {
+            const color = getPenColor();
+            const colorBtnBg = colorBtn.querySelector('.color-btn-bg');
+            if (hasColorBeenSelected && colorBtnBg) {
+                colorBtnBg.style.fill = color;
+                colorBtn.classList.add('selected');
+            }
+        }
+
+        // Update color slider thumbs and tracks
+        function updateColorSliders() {
+            const hueThumb = document.getElementById('hueThumb');
+            const satThumb = document.getElementById('satThumb');
+            const valThumb = document.getElementById('valThumb');
+            const satTrack = document.getElementById('satTrack');
+            const valTrack = document.getElementById('valTrack');
+
+            // Update thumb positions
+            hueThumb.style.left = `${(penHue / 360) * 100}%`;
+            satThumb.style.left = `${penSat}%`;
+            valThumb.style.left = `${penBright}%`;
+
+            // Update saturation track gradient
+            satTrack.style.background = `linear-gradient(to right, #ffffff, hsl(${penHue}, 100%, 50%))`;
+
+            // Update value track gradient
+            valTrack.style.background = `linear-gradient(to right, #000000, hsl(${penHue}, ${penSat}%, 50%), #ffffff)`;
+
+            // Update thumb colors
+            const hueColor = `hsl(${penHue}, 100%, 50%)`;
+            const satColor = `hsl(${penHue}, ${penSat}%, 50%)`;
+            const finalColor = getPenColor();
+
+            hueThumb.style.setProperty('--thumb-color', hueColor);
+            satThumb.style.setProperty('--thumb-color', satColor);
+            valThumb.style.setProperty('--thumb-color', finalColor);
+
+            // Update color button
+            updateColorButton();
+        }
+
+        // Update line weight thumb position and squiggle stroke
+        function updateLineWeight() {
+            const position = ((penSize - 1) / 49) * 200;
+            lineWeightThumb.style.left = `${position}px`;
+            lineWeightSquiggle.style.strokeWidth = penSize / 10;
+            if (isPenActive) updatePenCursor();
+        }
+
+        // Generate custom pen cursor with size indicator
+        function updatePenCursor() {
+            const size = Math.max(penSize, 8);
+            const halfSize = size / 2;
+            const center = halfSize + 8;
+            const viewBox = size + 16;
+            const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${viewBox}' height='${viewBox}' viewBox='0 0 ${viewBox} ${viewBox}'><circle cx='${center}' cy='${center}' r='${halfSize}' fill='none' stroke='white' stroke-width='2' opacity='0.6'/><line x1='${center}' y1='${center - 6}' x2='${center}' y2='${center + 6}' stroke='white' stroke-width='1.5'/><line x1='${center - 6}' y1='${center}' x2='${center + 6}' y2='${center}' stroke='white' stroke-width='1.5'/></svg>`;
+            canvas.style.cursor = `url("data:image/svg+xml,${encodeURIComponent(svg)}") ${center} ${center}, crosshair`;
+        }
+
+        // Event Listeners - V2 UI
+        penBtn.addEventListener('click', activatePenMode);
+
+        eraserBtn.addEventListener('click', () => {
+            isEraser = !isEraser;
+            eraserBtn.classList.toggle('active', isEraser);
+            // Close modals when toggling eraser
+            lineWeightModal.classList.add('hidden');
+            colorSelectorModal.classList.add('hidden');
+            sizeBtn.classList.remove('active');
+            colorBtn.classList.remove('active');
+        });
+
+        clearBtn.addEventListener('click', handleCloseClick);
+
+        // Confirm close modal handlers
+        document.getElementById('confirmCloseYes').addEventListener('click', () => {
+            document.getElementById('confirmCloseModal').classList.add('hidden');
+            clearCanvas();
+        });
+
+        document.getElementById('confirmCloseNo').addEventListener('click', () => {
+            document.getElementById('confirmCloseModal').classList.add('hidden');
+        });
+
+        sizeBtn.addEventListener('click', () => {
+            const isOpen = !lineWeightModal.classList.contains('hidden');
+            lineWeightModal.classList.toggle('hidden');
+            colorSelectorModal.classList.add('hidden');
+            sizeBtn.classList.toggle('active', !isOpen);
+            colorBtn.classList.remove('active');
+        });
+
+        colorBtn.addEventListener('click', () => {
+            const isOpen = !colorSelectorModal.classList.contains('hidden');
+            colorSelectorModal.classList.toggle('hidden');
+            lineWeightModal.classList.add('hidden');
+            colorBtn.classList.toggle('active', !isOpen);
+            sizeBtn.classList.remove('active');
+            hasColorBeenSelected = true;
+            updateColorButton();
+        });
+
+        // Modal close buttons
+        document.getElementById('lineWeightCloseBtn').addEventListener('click', () => {
+            lineWeightModal.classList.add('hidden');
+            sizeBtn.classList.remove('active');
+        });
+
+        document.getElementById('colorSelectorCloseBtn').addEventListener('click', () => {
+            colorSelectorModal.classList.add('hidden');
+            colorBtn.classList.remove('active');
+        });
+
+        shareBtn.addEventListener('click', () => {
+            document.getElementById('saveModal').classList.remove('hidden');
+        });
+
+        document.getElementById('saveToDevice').addEventListener('click', () => {
+            saveDrawing();
+            document.getElementById('saveModal').classList.add('hidden');
+        });
+
+        document.getElementById('shareImage').addEventListener('click', () => {
+            shareDrawing();
+            document.getElementById('saveModal').classList.add('hidden');
+        });
+
+        // Line weight slider interaction
+        lineWeightSlider.addEventListener('mousedown', (e) => {
+            const rect = lineWeightSlider.getBoundingClientRect();
+            const updateSize = (clientX) => {
+                const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+                penSize = Math.round((x / rect.width) * 49 + 1);
+                updateLineWeight();
+            };
+
+            updateSize(e.clientX);
+
+            const onMouseMove = (moveE) => updateSize(moveE.clientX);
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        // Color slider interactions
+        let isDraggingHue = false, isDraggingSat = false, isDraggingVal = false;
+
+        document.getElementById('hueSliderRow').addEventListener('mousedown', (e) => {
+            isDraggingHue = true;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            penHue = Math.round((x / rect.width) * 360);
+            updateColorSliders();
+        });
+
+        document.getElementById('satSliderRow').addEventListener('mousedown', (e) => {
+            isDraggingSat = true;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            penSat = Math.round((x / rect.width) * 100);
+            updateColorSliders();
+        });
+
+        document.getElementById('valSliderRow').addEventListener('mousedown', (e) => {
+            isDraggingVal = true;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            penBright = Math.round((x / rect.width) * 100);
+            updateColorSliders();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingHue) {
+                const row = document.getElementById('hueSliderRow');
+                const rect = row.getBoundingClientRect();
+                const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                penHue = Math.round((x / rect.width) * 360);
+                updateColorSliders();
+            }
+            if (isDraggingSat) {
+                const row = document.getElementById('satSliderRow');
+                const rect = row.getBoundingClientRect();
+                const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                penSat = Math.round((x / rect.width) * 100);
+                updateColorSliders();
+            }
+            if (isDraggingVal) {
+                const row = document.getElementById('valSliderRow');
+                const rect = row.getBoundingClientRect();
+                const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                penBright = Math.round((x / rect.width) * 100);
+                updateColorSliders();
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDraggingHue = false;
+            isDraggingSat = false;
+            isDraggingVal = false;
+        });
+
+        // Eyedropper tool
+        document.getElementById('eyedropperBtn').addEventListener('click', async () => {
+            if ('EyeDropper' in window) {
+                try {
+                    const eyeDropper = new window.EyeDropper();
+                    const result = await eyeDropper.open();
+
+                    // Parse hex to HSL
+                    const hex = result.sRGBHex;
+                    const r = parseInt(hex.slice(1, 3), 16) / 255;
+                    const g = parseInt(hex.slice(3, 5), 16) / 255;
+                    const b = parseInt(hex.slice(5, 7), 16) / 255;
+
+                    const max = Math.max(r, g, b);
+                    const min = Math.min(r, g, b);
+                    const delta = max - min;
+
+                    let h = 0;
+                    if (delta !== 0) {
+                        if (max === r) h = 60 * (((g - b) / delta) % 6);
+                        else if (max === g) h = 60 * ((b - r) / delta + 2);
+                        else h = 60 * ((r - g) / delta + 4);
+                    }
+                    if (h < 0) h += 360;
+
+                    const l = (max + min) / 2;
+                    const s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+                    penHue = Math.round(h);
+                    penSat = Math.round(s * 100);
+                    penBright = Math.round(l * 100);
+                    hasColorBeenSelected = true;
+                    updateColorSliders();
+                } catch (err) {
+                    console.log('Eyedropper cancelled');
+                }
+            } else {
+                alert('Eyedropper not supported in this browser');
+            }
+        });
+
+        document.getElementById('cancelSave').addEventListener('click', () => {
+            document.getElementById('saveModal').classList.add('hidden');
+        });
+
+        // Initialize V2 UI state
+        updateLineWeight();
+        updateColorSliders();
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+
+        // Touch support
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startDrawing({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            draw({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initCollage();
+            setupCanvas();
+            startContinuousDrift();
+            startCycle();
+        });
+
+        // Debounced resize handler to prevent flicker
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(setupCanvas, 150);
+        });
+    </script>
+</body>
+</html>
