@@ -2235,20 +2235,60 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 2rem;
     background: var(--color-neutral-100);
     min-height: 200px;
-    max-height: 70vh;
+    max-height: calc(70vh - 6rem);
 }
 
 .preview-image-wrapper img {
     max-width: 100%;
-    max-height: 70vh;
+    max-height: calc(70vh - 10rem);
     width: auto;
     height: auto;
     object-fit: contain;
     border-radius: calc(var(--radius) / 2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Preview Navigation Buttons */
+.preview-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition);
+    z-index: 10;
+}
+
+.preview-nav-btn:hover {
+    background: var(--color-neutral-100);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.preview-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.preview-nav-btn.prev {
+    left: 1.5rem;
+}
+
+.preview-nav-btn.next {
+    right: 1.5rem;
+}
+
+.preview-nav-btn svg {
+    stroke: var(--color-neutral-900);
 }
 
 .preview-info {

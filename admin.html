@@ -346,6 +346,11 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
 
     <!-- Image Preview Modal -->
     <div class="modal hidden" id="imagePreviewModal">
+        <button class="preview-nav-btn prev" id="previewPrevBtn" title="Previous image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+        </button>
         <div class="image-preview-modal-content">
             <div class="preview-image-wrapper">
                 <img src="" alt="Preview" id="previewImage">
@@ -371,6 +376,11 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                 </button>
             </div>
         </div>
+        <button class="preview-nav-btn next" id="previewNextBtn" title="Next image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </button>
     </div>
 
     <!-- Delete Confirmation Modal (single image) -->
@@ -869,6 +879,36 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                 imageToDelete = currentPreviewIndex;
                 closeImagePreview();
                 deleteModal.classList.remove('hidden');
+            }
+        });
+
+        // Navigation buttons
+        document.getElementById('previewPrevBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentPreviewIndex !== null && collageImages.length > 1) {
+                const newIndex = (currentPreviewIndex - 1 + collageImages.length) % collageImages.length;
+                openImagePreview(newIndex);
+            }
+        });
+
+        document.getElementById('previewNextBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentPreviewIndex !== null && collageImages.length > 1) {
+                const newIndex = (currentPreviewIndex + 1) % collageImages.length;
+                openImagePreview(newIndex);
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!imagePreviewModal.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') {
+                    document.getElementById('previewPrevBtn').click();
+                } else if (e.key === 'ArrowRight') {
+                    document.getElementById('previewNextBtn').click();
+                } else if (e.key === 'Escape') {
+                    closeImagePreview();
+                }
             }
         });
 
