@@ -1173,7 +1173,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         // Save to server
         async function saveToServer(type, data) {
             try {
-                const response = await fetch('/api/save-content', {
+                const response = await fetch('/.netlify/functions/save-content', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1191,7 +1191,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         // Load content from server
         async function loadServerContent() {
             try {
-                const response = await fetch('/api/get-content');
+                const response = await fetch('/.netlify/functions/get-content');
                 if (response.ok) {
                     const content = await response.json();
 

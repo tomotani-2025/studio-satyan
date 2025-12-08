@@ -1,22 +1,24 @@
 // Save content (requires authentication)
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
-export default async (req, context) => {
+exports.handler = async (event) => {
     // Only allow POST
-    if (req.method !== "POST") {
-        return new Response(JSON.stringify({ error: "Method not allowed" }), {
-            status: 405,
-            headers: { "Content-Type": "application/json" }
-        });
+    if (event.httpMethod !== "POST") {
+        return {
+            statusCode: 405,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Method not allowed" })
+        };
     }
 
     // Verify authentication
-    const authHeader = req.headers.get("authorization");
+    const authHeader = event.headers.authorization || event.headers.Authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-            status: 401,
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 401,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Unauthorized" })
+        };
     }
 
     const token = authHeader.split(" ")[1];
@@ -29,28 +31,31 @@ export default async (req, context) => {
         const maxAge = 86400000; // 24 hours
 
         if (password !== adminPassword || tokenAge >= maxAge) {
-            return new Response(JSON.stringify({ error: "Token expired or invalid" }), {
-                status: 401,
-                headers: { "Content-Type": "application/json" }
-            });
+            return {
+                statusCode: 401,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Token expired or invalid" })
+            };
         }
     } catch (error) {
-        return new Response(JSON.stringify({ error: "Invalid token" }), {
-            status: 401,
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 401,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Invalid token" })
+        };
     }
 
     // Save the content
     try {
-        const body = await req.json();
+        const body = JSON.parse(event.body);
         const { type, data } = body;
 
         if (!type || !data) {
-            return new Response(JSON.stringify({ error: "Missing type or data" }), {
-                status: 400,
-                headers: { "Content-Type": "application/json" }
-            });
+            return {
+                statusCode: 400,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Missing type or data" })
+            };
         }
 
         const store = getStore("site-content");
@@ -58,25 +63,25 @@ export default async (req, context) => {
         // Valid content types
         const validTypes = ["about-page", "contact-page", "collage-images"];
         if (!validTypes.includes(type)) {
-            return new Response(JSON.stringify({ error: "Invalid content type" }), {
-                status: 400,
-                headers: { "Content-Type": "application/json" }
-            });
+            return {
+                statusCode: 400,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Invalid content type" })
+            };
         }
 
         await store.setJSON(type, data);
 
-        return new Response(JSON.stringify({ success: true }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: true })
+        };
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 500,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: error.message })
+        };
     }
-};
-
-export const config = {
-    path: "/api/save-content"
 };

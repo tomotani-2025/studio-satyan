@@ -1,7 +1,7 @@
 // Get stored content (about page, contact page data)
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
-export default async (req, context) => {
+exports.handler = async (event) => {
     const store = getStore("site-content");
 
     try {
@@ -14,21 +14,20 @@ export default async (req, context) => {
         // Get collage images list
         const collageData = await store.get("collage-images", { type: "json" });
 
-        return new Response(JSON.stringify({
-            about: aboutData || null,
-            contact: contactData || null,
-            collage: collageData || null
-        }), {
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                about: aboutData || null,
+                contact: contactData || null,
+                collage: collageData || null
+            })
+        };
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-        });
+        return {
+            statusCode: 500,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: error.message })
+        };
     }
-};
-
-export const config = {
-    path: "/api/get-content"
 };
