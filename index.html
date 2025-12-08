@@ -56,6 +56,15 @@
 
             <!-- Drawing Canvas -->
             <canvas id="drawingCanvas"></canvas>
+
+            <!-- Cycle Timer -->
+            <div class="cycle-timer" id="cycleTimer">
+                <div class="timer-dot"></div>
+                <div class="timer-dot"></div>
+                <div class="timer-dot"></div>
+                <div class="timer-dot"></div>
+                <div class="timer-dot"></div>
+            </div>
         </div>
 
         <!-- Drawing Controls - V2 Figma Design -->
@@ -461,62 +470,7 @@
             return positions;
         }
 
-        // Continuous drift animation - runs forever, never stops
-        let driftAnimationId = null;
-        let driftGlobalStart = performance.now();
-        let driftEnabled = true;
-        let driftIntensity = 1; // Multiplier for smooth resume (0-1)
-        let driftResumeStart = null; // Timestamp when drift was re-enabled
-        let isShuffling = false; // Pause drift during shuffle transitions
-
-        function startContinuousDrift() {
-            if (driftAnimationId) return;
-
-            function animateDrift(currentTime) {
-                // Early exit when drift is disabled (drawing mode) or shuffling - skip all processing
-                if (!driftEnabled || isShuffling) {
-                    if (driftAnimationId) cancelAnimationFrame(driftAnimationId);
-                    driftAnimationId = requestAnimationFrame(animateDrift);
-                    return;
-                }
-
-                // Smooth resume: ease intensity from 0 to 1 over 500ms
-                if (driftResumeStart !== null) {
-                    const resumeElapsed = currentTime - driftResumeStart;
-                    driftIntensity = Math.min(1, resumeElapsed / 500);
-                    if (driftIntensity >= 1) {
-                        driftResumeStart = null; // Resume complete
-                    }
-                }
-
-                const elapsed = (currentTime - driftGlobalStart) / 1000;
-
-                collageItems.forEach((item, i) => {
-                    if (!item || !positions[i]) return;
-                    // Skip items not in the collage (expanded or being animated)
-                    if (item.parentElement !== collage) return;
-
-                    const pos = positions[i];
-                    const phase = pos.driftPhase || 0;
-                    const speed = pos.driftSpeed || 0.5;
-
-                    const driftX = Math.sin(elapsed * speed + phase) * 4 * driftIntensity;
-                    const driftY = Math.cos(elapsed * speed * 0.7 + phase) * 3 * driftIntensity;
-                    const rotate = Math.sin(elapsed * speed * 0.5 + phase) * 0.5 * driftIntensity;
-
-                    if (isExpanded) {
-                        item.style.transform = `translate(${driftX * 1.5}px, ${driftY * 1.5}px) rotate(${rotate}deg)`;
-                    } else {
-                        item.style.transform = `translate(${driftX}px, ${driftY}px) rotate(${rotate * 0.3}deg)`;
-                    }
-                });
-
-                if (driftAnimationId) cancelAnimationFrame(driftAnimationId);
-                driftAnimationId = requestAnimationFrame(animateDrift);
-            }
-
-            driftAnimationId = requestAnimationFrame(animateDrift);
-        }
+        // Drift is now handled by CSS animation (see styles.css @keyframes drift)
 
         // Set collage rotation (±60 degrees max)
         function setCollageRotation(angle) {
@@ -564,6 +518,8 @@
                 const item = document.createElement('div');
                 item.className = 'collage-item';
                 item.dataset.index = index;
+                // Random drift delay so images are out of phase
+                item.style.setProperty('--drift-delay', `${Math.random() * -8}s`);
 
                 const img = document.createElement('img');
                 img.src = src;
@@ -771,29 +727,16 @@
             }
         }
 
-        // Shuffle all positions - staggered for organic movement
+        // Shuffle all positions with staggered animation
         function shufflePositions() {
-            // Pause drift during shuffle to prevent jitter
-            isShuffling = true;
-
-            // Clear transforms immediately so they don't interfere with CSS transitions
-            collageItems.forEach(item => {
-                if (item && item.parentElement === collage) {
-                    item.style.transform = '';
-                }
-            });
-
             const newPositions = generateMosaicLayout(images.length);
 
-            // Apply new positions with slight stagger for organic movement
             collageItems.forEach((item, i) => {
                 if (!item || !newPositions[i]) return;
-                // Skip items not in collage (being animated elsewhere)
                 if (item.parentElement !== collage) return;
 
-                // Stagger: 5ms per image = 0-200ms spread across 40 images
-                const stagger = i * 5;
-                item.style.transitionDelay = `${stagger}ms`;
+                // Stagger: 5ms per image
+                item.style.transitionDelay = `${i * 5}ms`;
 
                 const pos = newPositions[i];
                 item.style.width = `${pos.width}%`;
@@ -801,21 +744,15 @@
                 item.style.left = `${pos.left}%`;
                 item.style.top = `${pos.top}%`;
                 item.style.zIndex = pos.zIndex;
-
-                // Clear transition delay after animation completes
-                setTimeout(() => {
-                    if (item) item.style.transitionDelay = '';
-                }, 2000 + stagger);
             });
 
-            // Update positions reference
             positions = newPositions;
 
-            // Resume drift smoothly after transitions complete (1.8s + 200ms stagger buffer)
+            // Clear transition delays after animation completes
             setTimeout(() => {
-                isShuffling = false;
-                driftIntensity = 0;
-                driftResumeStart = performance.now();
+                collageItems.forEach(item => {
+                    if (item) item.style.transitionDelay = '';
+                });
             }, 2000);
         }
 
@@ -858,22 +795,73 @@
             }
         }
 
-        // Auto-cycle animation
+        // Auto-cycle animation with visual timer
         let cycleTimer;
+        let dotTimer;
+        let currentDot = 0;
+        const timerElement = document.getElementById('cycleTimer');
+        const timerDots = timerElement.querySelectorAll('.timer-dot');
+
+        function resetTimerDots() {
+            currentDot = 0;
+            // Cascade animation: show dots one by one
+            timerDots.forEach((dot, i) => {
+                dot.classList.remove('hidden');
+                dot.classList.add('cascade');
+                dot.style.animationDelay = `${i * 60}ms`;
+            });
+            // Remove cascade class after animation
+            setTimeout(() => {
+                timerDots.forEach(dot => {
+                    dot.classList.remove('cascade');
+                    dot.style.animationDelay = '';
+                });
+            }, 400);
+        }
+
+        function hideDot() {
+            if (currentDot < timerDots.length) {
+                timerDots[currentDot].classList.add('hidden');
+                currentDot++;
+            }
+        }
+
         function startCycle() {
             if (isPenActive) return;
 
+            // Reset timer display
+            resetTimerDots();
+
+            // Hide one dot per second
+            dotTimer = setInterval(() => {
+                if (isPenActive) return;
+                hideDot();
+            }, 1000);
+
+            // Cycle every 5 seconds
             cycleTimer = setInterval(() => {
                 if (isPenActive) return;
 
                 if (isExpanded) {
-                    // Collapse and shuffle
                     collapseAndShuffle(true);
                 } else {
-                    // Expand next image
                     expandImage(activeImageIndex);
                 }
+
+                // Reset dots for next cycle
+                resetTimerDots();
             }, 5000);
+        }
+
+        function stopCycle() {
+            clearInterval(cycleTimer);
+            clearInterval(dotTimer);
+            timerElement.classList.add('paused');
+        }
+
+        function resumeCycle() {
+            timerElement.classList.remove('paused');
+            startCycle();
         }
 
         // Canvas setup
@@ -957,8 +945,8 @@
             updatePenCursor();
 
             // Pause animation and drift
-            clearInterval(cycleTimer);
-            driftEnabled = false;
+            stopCycle();
+            collageItems.forEach(item => item.classList.add('paused'));
         }
 
         function deactivatePenMode() {
@@ -979,11 +967,9 @@
             canvas.style.pointerEvents = 'none';
             canvas.style.cursor = 'default';
 
-            // Resume animation with smooth drift ease-in
-            startCycle();
-            driftIntensity = 0; // Start from zero
-            driftResumeStart = performance.now(); // Begin ease-in
-            driftEnabled = true;
+            // Resume animation and drift
+            resumeCycle();
+            collageItems.forEach(item => item.classList.remove('paused'));
         }
 
         // Check if canvas has any content
@@ -1337,7 +1323,6 @@
         window.addEventListener('load', () => {
             initCollage();
             setupCanvas();
-            startContinuousDrift();
             startCycle();
         });
 

@@ -213,14 +213,24 @@ p {
     height: 50%;
 }
 
+/* Gentle floating drift animation */
+@keyframes drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(4px, -3px) rotate(0.15deg); }
+    50% { transform: translate(-2px, 3px) rotate(-0.1deg); }
+    75% { transform: translate(-4px, -2px) rotate(0.1deg); }
+}
+
 .collage-item {
     position: absolute;
     overflow: hidden;
     border-radius: var(--radius);
     cursor: pointer;
-    will-change: transform;
     transform-origin: center center;
-    /* Slow, dreamy transitions for position changes - all move together */
+    /* CSS drift animation - no JS needed */
+    animation: drift 8s ease-in-out infinite;
+    animation-delay: var(--drift-delay, 0s);
+    /* Slow, dreamy transitions for position changes */
     transition: width 1.8s cubic-bezier(0.25, 0.1, 0.25, 1),
                 height 1.8s cubic-bezier(0.25, 0.1, 0.25, 1),
                 left 1.8s cubic-bezier(0.25, 0.1, 0.25, 1),
@@ -229,6 +239,10 @@ p {
     /* Subtle drop shadow for depth and separation */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
                 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.collage-item.paused {
+    animation-play-state: paused;
 }
 
 .collage-item img {
@@ -283,6 +297,9 @@ p {
     z-index: 50 !important;
     border-radius: 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* Stop drift animation when expanded */
+    animation: none;
+    transform: none;
     /* Unified expand animation - all properties animate together */
     transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
                 width 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
@@ -303,7 +320,7 @@ p {
     justify-content: center;
     z-index: 100;
     pointer-events: none;
-    padding-bottom: 2rem;
+    padding-bottom: 3rem;
 }
 
 .logo-overlay img {
@@ -318,6 +335,44 @@ p {
     inset: 0;
     z-index: 101;
     pointer-events: none;
+}
+
+/* Cycle Timer - bottom left, vertical */
+.cycle-timer {
+    position: absolute;
+    bottom: 3rem;
+    left: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    z-index: 102;
+    pointer-events: none;
+}
+
+.timer-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transition: opacity 0.15s ease, transform 0.3s ease;
+}
+
+.timer-dot.hidden {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.timer-dot.cascade {
+    animation: cascadeIn 0.2s ease forwards;
+}
+
+@keyframes cascadeIn {
+    0% { opacity: 0; transform: scale(0) translateY(-5px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.cycle-timer.paused .timer-dot {
+    opacity: 0.3;
 }
 
 /* ========================================
@@ -1319,13 +1374,12 @@ footer {
 }
 
 .hamburger-dropdown a.active {
-    background: var(--color-white);
+    background: var(--color-teal);
     backdrop-filter: blur(2px);
 }
 
 .hamburger-dropdown.open a.active {
     background: var(--color-teal);
-    transition: transform 0.15s ease, background 0.25s ease 0.2s;
 }
 
 .hamburger-dropdown a p {
@@ -1336,12 +1390,10 @@ footer {
     white-space: pre;
     color: #090909;
     margin: 0;
-    transition: color 0.25s ease;
 }
 
-.hamburger-dropdown.open a.active p {
+.hamburger-dropdown a.active p {
     color: var(--color-white);
-    transition: color 0.25s ease 0.2s;
 }
 
 /* Hide old navbar on pages with hamburger menu */
@@ -1452,6 +1504,12 @@ footer {
 .admin-section h2 {
     margin-bottom: 0.5rem;
     color: var(--color-neutral-900);
+}
+
+.image-count {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-neutral-500);
 }
 
 .section-desc {
@@ -1792,6 +1850,119 @@ footer {
 
 .modal-round-btn.delete-confirm:hover .modal-btn-circle {
     background: #dc2626;
+}
+
+/* Image Preview Modal */
+.image-preview-modal-content {
+    background: var(--color-white);
+    border-radius: var(--radius);
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalFadeIn 0.2s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.preview-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--color-neutral-100);
+    min-height: 200px;
+    max-height: 60vh;
+    overflow: hidden;
+}
+
+.preview-image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: calc(var(--radius) / 2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.preview-info {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-neutral-200);
+    text-align: center;
+}
+
+.preview-filename {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-neutral-900);
+    word-break: break-all;
+    margin-bottom: 0.25rem;
+}
+
+.preview-dimensions {
+    font-size: 0.75rem;
+    color: var(--color-neutral-500);
+}
+
+.preview-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    justify-content: center;
+}
+
+.preview-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-family);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.preview-btn:hover {
+    transform: scale(1.02);
+}
+
+.preview-btn:active {
+    transform: scale(0.98);
+}
+
+.preview-btn.delete {
+    background: var(--color-red-500);
+    color: var(--color-white);
+}
+
+.preview-btn.delete:hover {
+    background: #dc2626;
+}
+
+.preview-btn.close {
+    background: var(--color-neutral-200);
+    color: var(--color-neutral-700);
+}
+
+.preview-btn.close:hover {
+    background: var(--color-neutral-300);
+}
+
+/* Make image cards clickable */
+.image-card {
+    cursor: pointer;
 }
 
 /* Toast Notification */
