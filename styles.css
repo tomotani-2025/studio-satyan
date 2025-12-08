@@ -2360,12 +2360,12 @@ footer {
 }
 
 .preview-btn.close {
-    background: var(--color-neutral-200);
-    color: var(--color-neutral-700);
+    background: var(--color-black);
+    color: var(--color-red-500);
 }
 
 .preview-btn.close:hover {
-    background: var(--color-neutral-300);
+    background: var(--color-neutral-800);
 }
 
 /* Make image cards clickable */
