@@ -401,9 +401,6 @@
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Organic layout configuration
-        const MAX_OVERLAP_PERCENT = 0.15; // Maximum 15% of an image can be covered
-
         // Size templates - 25% smaller, more dramatic size variation
         const sizeTemplates = [
             { minW: 9, maxW: 14, minH: 11, maxH: 17 },    // Extra Small
@@ -415,8 +412,8 @@
             { minW: 11, maxW: 18, minH: 26, maxH: 41 },   // Tall portrait
         ];
 
-        // Calculate overlap between two rectangles
-        function getOverlapPercent(rect1, rect2) {
+        // Calculate overlap area between two rectangles
+        function getOverlapArea(rect1, rect2) {
             const overlapLeft = Math.max(rect1.left, rect2.left);
             const overlapRight = Math.min(rect1.left + rect1.width, rect2.left + rect2.width);
             const overlapTop = Math.max(rect1.top, rect2.top);
@@ -426,87 +423,127 @@
                 return 0;
             }
 
-            const overlapArea = (overlapRight - overlapLeft) * (overlapBottom - overlapTop);
-            const rect2Area = rect2.width * rect2.height;
-
-            return overlapArea / rect2Area;
+            return (overlapRight - overlapLeft) * (overlapBottom - overlapTop);
         }
 
-        // Check if position is valid (not too much overlap with higher z-index items)
-        function isValidPosition(newRect, existingPositions, newZIndex) {
-            for (const pos of existingPositions) {
+        // Calculate total coverage of an image by all higher z-index images
+        function getTotalCoverage(targetRect, allPositions) {
+            const targetArea = targetRect.width * targetRect.height;
+            let totalOverlapArea = 0;
+
+            for (const pos of allPositions) {
                 if (!pos) continue;
-                // Only check overlap if this image would be underneath
-                if (pos.zIndex > newZIndex) {
-                    const overlap = getOverlapPercent(pos, newRect);
-                    if (overlap > MAX_OVERLAP_PERCENT) return false;
+                // Only count overlap from images on top (higher z-index)
+                if (pos.zIndex > targetRect.zIndex) {
+                    totalOverlapArea += getOverlapArea(pos, targetRect);
                 }
             }
+
+            return totalOverlapArea / targetArea;
+        }
+
+        // Check if adding a new rect would leave all existing images with enough visibility
+        function isValidPosition(newRect, existingPositions) {
+            const MAX_COVERAGE = 0.70; // Each image must have at least 30% visible
+
+            // Check that new image doesn't cover existing lower z-index images too much
+            for (const pos of existingPositions) {
+                if (!pos) continue;
+                // If new image would be on top of this one
+                if (newRect.zIndex > pos.zIndex) {
+                    // Calculate how much this existing image would be covered after adding newRect
+                    const currentCoverage = getTotalCoverage(pos, existingPositions);
+                    const additionalCoverage = getOverlapArea(newRect, pos) / (pos.width * pos.height);
+                    if (currentCoverage + additionalCoverage > MAX_COVERAGE) {
+                        return false;
+                    }
+                }
+            }
+
+            // Also check that the new image itself won't be too covered
+            const newImageCoverage = getTotalCoverage(newRect, existingPositions);
+            if (newImageCoverage > MAX_COVERAGE) {
+                return false;
+            }
+
             return true;
         }
 
-        // Generate organic overlapping layout
+        // Generate organic overlapping layout - ensures every image has visibility
         function generateMosaicLayout(imageCount) {
             const positions = [];
-            const shuffledIndices = [...Array(imageCount).keys()].sort(() => Math.random() - 0.5);
 
+            // Sort by z-index (place back images first, front images last)
+            // This way we can properly check coverage as we place each image
+            const imageData = [];
             for (let i = 0; i < imageCount; i++) {
-                const imageIndex = shuffledIndices[i];
                 const template = sizeTemplates[Math.floor(Math.random() * sizeTemplates.length)];
-
                 const width = template.minW + Math.random() * (template.maxW - template.minW);
                 const height = template.minH + Math.random() * (template.maxH - template.minH);
 
-                // Calculate area - larger images get lower z-index (further back)
-                // Smaller images get higher z-index (closer/on top)
+                // Calculate z-index based on area (smaller = higher z)
                 const area = width * height;
-                const maxArea = 53 * 49; // Largest possible
-                const minArea = 9 * 11;  // Smallest possible
-                // Invert: small area = high z, large area = low z
+                const maxArea = 53 * 49;
+                const minArea = 9 * 11;
                 const normalizedArea = (area - minArea) / (maxArea - minArea);
-                const zIndex = Math.floor((1 - normalizedArea) * 28) + 2; // Range 2-30, inverted
+                const zIndex = Math.floor((1 - normalizedArea) * 28) + 2;
 
-                // Try to find a valid position
+                imageData.push({ index: i, width, height, zIndex });
+            }
+
+            // Sort by z-index ascending (back to front)
+            imageData.sort((a, b) => a.zIndex - b.zIndex);
+
+            for (const img of imageData) {
                 let attempts = 0;
                 let placed = false;
+                let bestPosition = null;
+                let bestScore = -Infinity;
 
-                while (attempts < 50 && !placed) {
-                    // Random position with some margin
-                    const left = -5 + Math.random() * (105 - width);
-                    const top = -5 + Math.random() * (105 - height);
+                while (attempts < 80 && !placed) {
+                    // Random position within bounds (allow slight overflow)
+                    const left = -5 + Math.random() * (105 - img.width);
+                    const top = -5 + Math.random() * (105 - img.height);
 
-                    const newRect = { left, top, width, height, zIndex };
+                    const newRect = { left, top, width: img.width, height: img.height, zIndex: img.zIndex };
 
-                    if (isValidPosition(newRect, positions, zIndex)) {
+                    if (isValidPosition(newRect, positions)) {
                         // Add slight random offset for organic feel
                         const offsetX = (Math.random() - 0.5) * 3;
                         const offsetY = (Math.random() - 0.5) * 3;
 
-                        positions[imageIndex] = {
+                        positions[img.index] = {
                             left: left + offsetX,
                             top: top + offsetY,
-                            width,
-                            height,
-                            zIndex,
-                            // Store drift phase for continuous animation
+                            width: img.width,
+                            height: img.height,
+                            zIndex: img.zIndex,
                             driftPhase: Math.random() * Math.PI * 2,
                             driftSpeed: 0.3 + Math.random() * 0.4
                         };
                         placed = true;
+                    } else {
+                        // Track best attempt for fallback
+                        const coverage = getTotalCoverage(newRect, positions);
+                        const score = -coverage; // Lower coverage = better
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestPosition = { left, top };
+                        }
                     }
                     attempts++;
                 }
 
-                // Fallback: place anyway if couldn't find valid spot
+                // Fallback: use best position found
                 if (!placed) {
-                    const left = Math.random() * (100 - width);
-                    const top = Math.random() * (100 - height);
-                    positions[imageIndex] = {
+                    const left = bestPosition ? bestPosition.left : Math.random() * (100 - img.width);
+                    const top = bestPosition ? bestPosition.top : Math.random() * (100 - img.height);
+                    positions[img.index] = {
                         left,
                         top,
-                        width,
-                        height,
-                        zIndex,
+                        width: img.width,
+                        height: img.height,
+                        zIndex: img.zIndex,
                         driftPhase: Math.random() * Math.PI * 2,
                         driftSpeed: 0.3 + Math.random() * 0.4
                     };

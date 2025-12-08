@@ -297,7 +297,7 @@ p {
 .dimming-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     z-index: 99;
     pointer-events: none;
 }
@@ -1405,6 +1405,7 @@ footer {
     white-space: pre;
     color: #090909;
     margin: 0;
+    padding-top: 2px; /* Nudge text down for visual centering with TAY Birdie font */
 }
 
 .hamburger-dropdown a.active p {
@@ -1742,6 +1743,135 @@ footer {
 /* Hero Image Card Highlight */
 .image-card.is-hero {
     box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.8);
+}
+
+/* Multi-select Checkbox */
+.select-checkbox {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--color-neutral-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    opacity: 0;
+    transition: opacity var(--transition), background var(--transition), border-color var(--transition), transform var(--transition);
+    z-index: 2;
+}
+
+.select-checkbox svg {
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.image-card:hover .select-checkbox {
+    opacity: 1;
+}
+
+.select-checkbox:hover {
+    border-color: rgba(0, 158, 163, 0.8);
+    transform: scale(1.05);
+}
+
+.select-checkbox.checked {
+    opacity: 1;
+    background: rgba(0, 158, 163, 0.95);
+    border-color: rgba(0, 158, 163, 0.95);
+    color: var(--color-white);
+}
+
+.select-checkbox.checked svg {
+    opacity: 1;
+}
+
+/* Selected Image Card State */
+.image-card.selected {
+    box-shadow: 0 0 0 3px rgba(0, 158, 163, 0.8);
+}
+
+.image-card.selected.is-hero {
+    box-shadow: 0 0 0 3px rgba(0, 158, 163, 0.8), inset 0 0 0 2px rgba(251, 191, 36, 0.8);
+}
+
+/* Bulk Actions Bar */
+.bulk-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(0, 158, 163, 0.1) 0%, rgba(0, 158, 163, 0.05) 100%);
+    border: 2px solid rgba(0, 158, 163, 0.3);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bulk-select-info {
+    font-weight: 600;
+    color: var(--color-neutral-900);
+    font-size: 0.95rem;
+}
+
+.bulk-select-info span {
+    color: rgba(0, 158, 163, 1);
+    font-weight: 700;
+}
+
+.bulk-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.bulk-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius);
+    background: var(--color-white);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.bulk-btn:hover {
+    background: var(--color-neutral-100);
+    border-color: var(--color-neutral-400);
+}
+
+.bulk-btn.delete-selected {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.bulk-btn.delete-selected:hover {
+    background: #fee2e2;
+    border-color: #f87171;
+}
+
+.bulk-btn svg {
+    flex-shrink: 0;
 }
 
 .subsection-title {

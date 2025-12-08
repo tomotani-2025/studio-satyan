@@ -93,6 +93,35 @@
                     </div>
                 </div>
 
+                <!-- Bulk Actions Bar (hidden when no selection) -->
+                <div class="bulk-actions-bar hidden" id="bulkActionsBar">
+                    <div class="bulk-select-info">
+                        <span id="selectedCount">0</span> selected
+                    </div>
+                    <div class="bulk-actions">
+                        <button class="bulk-btn select-all" id="selectAllBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                            Select All
+                        </button>
+                        <button class="bulk-btn deselect-all" id="deselectAllBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
+                            Deselect All
+                        </button>
+                        <button class="bulk-btn delete-selected" id="deleteSelectedBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            Delete Selected
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Upload Area -->
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">
@@ -344,7 +373,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Delete Confirmation Modal (single image) -->
     <div class="modal hidden" id="deleteModal">
         <div class="modal-content">
             <h3 class="modal-title">DELETE IMAGE?</h3>
@@ -367,6 +396,34 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                         </svg>
                     </div>
                     <span class="modal-btn-label">Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Delete Confirmation Modal -->
+    <div class="modal hidden" id="bulkDeleteModal">
+        <div class="modal-content">
+            <h3 class="modal-title">DELETE <span id="bulkDeleteCount">0</span> IMAGES?</h3>
+            <p>Are you sure you want to remove the selected images from the collage? This cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="modal-round-btn cancel" id="cancelBulkDelete">
+                    <div class="modal-btn-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </div>
+                    <span class="modal-btn-label">Cancel</span>
+                </button>
+                <button class="modal-round-btn delete-confirm" id="confirmBulkDelete">
+                    <div class="modal-btn-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <span class="modal-btn-label">Delete All</span>
                 </button>
             </div>
         </div>
@@ -585,6 +642,9 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         // Hero image (first image by default)
         let heroImage = defaultCollageImages[0];
 
+        // Selected images for bulk operations
+        let selectedImages = new Set();
+
         // Get filename from full path
         function getFilename(path) {
             return path.replace(IMAGE_PATH_PREFIX, '');
@@ -649,15 +709,73 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             imageCountEl.textContent = `(${collageImages.length}/${originalImageCount})`;
         }
 
+        // Update bulk actions bar visibility
+        function updateBulkActionsBar() {
+            const bulkActionsBar = document.getElementById('bulkActionsBar');
+            const selectedCountEl = document.getElementById('selectedCount');
+
+            if (selectedImages.size > 0) {
+                bulkActionsBar.classList.remove('hidden');
+                selectedCountEl.textContent = selectedImages.size;
+            } else {
+                bulkActionsBar.classList.add('hidden');
+            }
+        }
+
+        // Toggle image selection
+        function toggleImageSelection(imagePath) {
+            if (selectedImages.has(imagePath)) {
+                selectedImages.delete(imagePath);
+            } else {
+                selectedImages.add(imagePath);
+            }
+            // Update UI
+            const card = document.querySelector(`.image-card[data-path="${imagePath}"]`);
+            if (card) {
+                card.classList.toggle('selected', selectedImages.has(imagePath));
+                const checkbox = card.querySelector('.select-checkbox');
+                if (checkbox) {
+                    checkbox.classList.toggle('checked', selectedImages.has(imagePath));
+                }
+            }
+            updateBulkActionsBar();
+        }
+
+        // Clear all selections
+        function clearAllSelections() {
+            selectedImages.clear();
+            document.querySelectorAll('.image-card.selected').forEach(card => {
+                card.classList.remove('selected');
+                const checkbox = card.querySelector('.select-checkbox');
+                if (checkbox) checkbox.classList.remove('checked');
+            });
+            updateBulkActionsBar();
+        }
+
+        // Select all images
+        function selectAllImages() {
+            collageImages.forEach(imagePath => {
+                selectedImages.add(imagePath);
+            });
+            document.querySelectorAll('.image-card').forEach(card => {
+                card.classList.add('selected');
+                const checkbox = card.querySelector('.select-checkbox');
+                if (checkbox) checkbox.classList.add('checked');
+            });
+            updateBulkActionsBar();
+        }
+
         // Render image grid
         function renderImageGrid() {
             imageGrid.innerHTML = '';
             collageImages.forEach((imagePath, index) => {
                 const filename = getFilename(imagePath);
                 const isHero = imagePath === heroImage;
+                const isSelected = selectedImages.has(imagePath);
                 const imageCard = document.createElement('div');
-                imageCard.className = `image-card${isHero ? ' is-hero' : ''}`;
+                imageCard.className = `image-card${isHero ? ' is-hero' : ''}${isSelected ? ' selected' : ''}`;
                 imageCard.dataset.index = index;
+                imageCard.dataset.path = imagePath;
                 imageCard.innerHTML = `
                     <img src="${encodeURIComponent(imagePath).replace(/%2F/g, '/')}" alt="${filename}" loading="lazy">
                     <button class="hero-star-btn${isHero ? ' active' : ''}" data-path="${imagePath}" title="${isHero ? 'Current hero image' : 'Set as hero image'}">
@@ -665,6 +783,11 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
                     </button>
+                    <div class="select-checkbox${isSelected ? ' checked' : ''}" data-path="${imagePath}" title="Select for bulk actions">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
                     <div class="image-overlay">
                         <span class="image-name">${filename}</span>
                     </div>
@@ -683,11 +806,20 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                 });
             });
 
+            // Add click listeners for select checkboxes
+            document.querySelectorAll('.select-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click
+                    const path = checkbox.dataset.path;
+                    toggleImageSelection(path);
+                });
+            });
+
             // Add click listeners to image cards for preview
             document.querySelectorAll('.image-card').forEach(card => {
                 card.addEventListener('click', (e) => {
-                    // Don't open preview if clicking the star button
-                    if (e.target.closest('.hero-star-btn')) return;
+                    // Don't open preview if clicking the star button or checkbox
+                    if (e.target.closest('.hero-star-btn') || e.target.closest('.select-checkbox')) return;
                     const index = parseInt(card.dataset.index);
                     openImagePreview(index);
                 });
@@ -696,6 +828,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             // Update image count and hero display
             updateImageCount();
             updateHeroDisplay();
+            updateBulkActionsBar();
         }
 
         // Open image preview modal
@@ -821,6 +954,62 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             if (e.target === deleteModal) {
                 deleteModal.classList.add('hidden');
                 imageToDelete = null;
+            }
+        });
+
+        // ================================
+        // BULK DELETE FUNCTIONALITY
+        // ================================
+
+        const bulkDeleteModal = document.getElementById('bulkDeleteModal');
+
+        // Select All button
+        document.getElementById('selectAllBtn').addEventListener('click', selectAllImages);
+
+        // Deselect All button
+        document.getElementById('deselectAllBtn').addEventListener('click', clearAllSelections);
+
+        // Delete Selected button - opens confirmation modal
+        document.getElementById('deleteSelectedBtn').addEventListener('click', () => {
+            if (selectedImages.size > 0) {
+                document.getElementById('bulkDeleteCount').textContent = selectedImages.size;
+                bulkDeleteModal.classList.remove('hidden');
+            }
+        });
+
+        // Cancel bulk delete
+        document.getElementById('cancelBulkDelete').addEventListener('click', () => {
+            bulkDeleteModal.classList.add('hidden');
+        });
+
+        // Confirm bulk delete
+        document.getElementById('confirmBulkDelete').addEventListener('click', async () => {
+            const deletedCount = selectedImages.size;
+
+            // Remove selected images from array
+            collageImages = collageImages.filter(img => !selectedImages.has(img));
+
+            // If hero was deleted, set new hero
+            if (selectedImages.has(heroImage)) {
+                heroImage = collageImages.length > 0 ? collageImages[0] : null;
+            }
+
+            // Clear selections
+            selectedImages.clear();
+
+            // Close modal and re-render
+            bulkDeleteModal.classList.add('hidden');
+            renderImageGrid();
+
+            // Save to server
+            await saveCollageImages();
+            showToast(`Deleted ${deletedCount} image${deletedCount > 1 ? 's' : ''}`);
+        });
+
+        // Close bulk delete modal on backdrop click
+        bulkDeleteModal.addEventListener('click', (e) => {
+            if (e.target === bulkDeleteModal) {
+                bulkDeleteModal.classList.add('hidden');
             }
         });
 
