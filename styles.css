@@ -2351,12 +2351,12 @@ footer {
 }
 
 .preview-btn.delete {
-    background: var(--color-red-500);
-    color: var(--color-white);
+    background: var(--color-black);
+    color: var(--color-red-500);
 }
 
 .preview-btn.delete:hover {
-    background: #dc2626;
+    background: var(--color-neutral-800);
 }
 
 .preview-btn.close {
