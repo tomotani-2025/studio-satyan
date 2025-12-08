@@ -87,7 +87,7 @@ h3 {
 
 p {
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .hidden {
@@ -1408,6 +1408,98 @@ footer {
     min-height: 100vh;
 }
 
+/* Login Screen */
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.login-screen.hidden {
+    display: none;
+}
+
+.login-container {
+    background: var(--color-white);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    max-width: 24rem;
+    width: 100%;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-neutral-200);
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 0.5rem;
+}
+
+.login-intro {
+    color: var(--color-neutral-500);
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+}
+
+.login-form .form-group {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.login-error {
+    color: var(--color-red-500);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: calc(var(--radius) / 2);
+}
+
+.login-error.hidden {
+    display: none;
+}
+
+/* Admin Content Container */
+.admin-content {
+    min-height: 100vh;
+}
+
+.admin-content.hidden {
+    display: none;
+}
+
+/* Logout Button */
+.logout-btn {
+    position: fixed;
+    top: 3rem;
+    left: 3rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 1px solid var(--color-neutral-200);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-neutral-600);
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+    z-index: 200;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn:hover {
+    background: var(--color-red-500);
+    color: var(--color-white);
+    border-color: var(--color-red-500);
+    transform: scale(1.05);
+}
+
+.logout-btn:active {
+    transform: scale(0.95);
+}
+
 .admin-page {
     min-height: 100vh;
     padding: 5rem 1.5rem 2rem;
@@ -1516,6 +1608,125 @@ footer {
     color: var(--color-neutral-500);
     margin-bottom: 1.5rem;
     font-size: 0.875rem;
+}
+
+/* Hero Image Display */
+.hero-image-display {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+}
+
+.hero-image-display.no-hero {
+    opacity: 0.6;
+    background: var(--color-neutral-100);
+    border-color: var(--color-neutral-200);
+}
+
+.hero-image-preview {
+    position: relative;
+    width: 120px;
+    height: 80px;
+    border-radius: calc(var(--radius) / 2);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--color-neutral-200);
+}
+
+.hero-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    background: rgba(251, 191, 36, 0.95);
+    border-radius: 4px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: 0.05em;
+}
+
+.hero-image-info {
+    flex: 1;
+}
+
+.hero-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: rgba(251, 191, 36, 1);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+}
+
+.hero-filename {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-neutral-900);
+    margin-bottom: 0.25rem;
+    word-break: break-all;
+}
+
+.hero-desc {
+    font-size: 0.75rem;
+    color: var(--color-neutral-500);
+}
+
+/* Hero Star Button on Image Cards */
+.hero-star-btn {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    opacity: 0;
+    transition: opacity var(--transition), background var(--transition), transform var(--transition);
+    z-index: 2;
+}
+
+.image-card:hover .hero-star-btn {
+    opacity: 1;
+}
+
+.hero-star-btn:hover {
+    background: rgba(251, 191, 36, 0.9);
+    transform: scale(1.1);
+}
+
+.hero-star-btn.active {
+    opacity: 1;
+    background: rgba(251, 191, 36, 0.95);
+    color: #1a1a1a;
+}
+
+.hero-star-btn.active:hover {
+    background: rgba(251, 191, 36, 1);
+}
+
+/* Hero Image Card Highlight */
+.image-card.is-hero {
+    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.8);
 }
 
 .subsection-title {

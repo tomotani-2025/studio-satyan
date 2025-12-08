@@ -10,22 +10,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="has-hamburger admin-body">
-    <!-- Hamburger Menu -->
-    <div class="hamburger-menu">
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
-            <svg fill="none" viewBox="0 0 24 18">
-                <path clip-rule="evenodd" d="M0 1.5C0 0.67158 0.67158 0 1.5 0H22.5C23.3284 0 24 0.67158 24 1.5C24 2.32842 23.3284 3 22.5 3H1.5C0.67158 3 0 2.32842 0 1.5ZM0 9C0 8.17155 0.67158 7.5 1.5 7.5H22.5C23.3284 7.5 24 8.17155 24 9C24 9.82845 23.3284 10.5 22.5 10.5H1.5C0.67158 10.5 0 9.82845 0 9ZM0 16.5C0 15.6716 0.67158 15 1.5 15H22.5C23.3284 15 24 15.6716 24 16.5C24 17.3284 23.3284 18 22.5 18H1.5C0.67158 18 0 17.3284 0 16.5Z" fill="#090909" fill-rule="evenodd"/>
-            </svg>
-        </button>
-        <div class="hamburger-dropdown" id="hamburgerDropdown">
-            <a href="index.html"><p>Home</p></a>
-            <a href="about.html"><p>About</p></a>
-            <a href="contact.html"><p>Contact</p></a>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h1>ADMIN LOGIN</h1>
+            <p class="login-intro">Enter the admin password to continue</p>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter password" autocomplete="current-password">
+                </div>
+                <p class="login-error hidden" id="loginError">Invalid password. Please try again.</p>
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    Login
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="admin-page">
+    <!-- Admin Content (hidden until authenticated) -->
+    <div class="admin-content hidden" id="adminContent">
+        <!-- Hamburger Menu -->
+        <div class="hamburger-menu">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+                <svg fill="none" viewBox="0 0 24 18">
+                    <path clip-rule="evenodd" d="M0 1.5C0 0.67158 0.67158 0 1.5 0H22.5C23.3284 0 24 0.67158 24 1.5C24 2.32842 23.3284 3 22.5 3H1.5C0.67158 3 0 2.32842 0 1.5ZM0 9C0 8.17155 0.67158 7.5 1.5 7.5H22.5C23.3284 7.5 24 8.17155 24 9C24 9.82845 23.3284 10.5 22.5 10.5H1.5C0.67158 10.5 0 9.82845 0 9ZM0 16.5C0 15.6716 0.67158 15 1.5 15H22.5C23.3284 15 24 15.6716 24 16.5C24 17.3284 23.3284 18 22.5 18H1.5C0.67158 18 0 17.3284 0 16.5Z" fill="#090909" fill-rule="evenodd"/>
+                </svg>
+            </button>
+            <div class="hamburger-dropdown" id="hamburgerDropdown">
+                <a href="index.html"><p>Home</p></a>
+                <a href="about.html"><p>About</p></a>
+                <a href="contact.html"><p>Contact</p></a>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button class="logout-btn" id="logoutBtn" title="Logout">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+        </button>
+
+        <!-- Main Content -->
+        <main class="admin-page">
         <div class="admin-container">
             <h1>ADMIN PANEL</h1>
             <p class="admin-intro">Manage your website content</p>
@@ -39,8 +72,26 @@
 
             <!-- Collage Images Section -->
             <section class="admin-section" id="collage-section">
-                <h2>COLLAGE IMAGES</h2>
-                <p class="section-desc">Add or remove images from the home page collage.</p>
+                <h2>COLLAGE IMAGES <span class="image-count" id="imageCount">(0/0)</span></h2>
+                <p class="section-desc">Add or remove images from the home page collage. Click the star icon to set an image as the Hero Image.</p>
+
+                <!-- Hero Image Display -->
+                <div class="hero-image-display" id="heroImageDisplay">
+                    <div class="hero-image-preview" id="heroImagePreview">
+                        <img src="" alt="Hero Image" id="heroPreviewImg">
+                        <div class="hero-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            HERO
+                        </div>
+                    </div>
+                    <div class="hero-image-info">
+                        <p class="hero-label">HERO IMAGE</p>
+                        <p class="hero-filename" id="heroFilename">No hero image selected</p>
+                        <p class="hero-desc">This image displays first while other images load</p>
+                    </div>
+                </div>
 
                 <!-- Upload Area -->
                 <div class="upload-area" id="uploadArea">
@@ -258,6 +309,41 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; STUDIO SATYAN 2025</p>
+    </footer>
+    </div><!-- End admin-content -->
+
+    <!-- Image Preview Modal -->
+    <div class="modal hidden" id="imagePreviewModal">
+        <div class="image-preview-modal-content">
+            <div class="preview-image-wrapper">
+                <img src="" alt="Preview" id="previewImage">
+            </div>
+            <div class="preview-info">
+                <p class="preview-filename" id="previewFilename"></p>
+                <p class="preview-dimensions" id="previewDimensions"></p>
+            </div>
+            <div class="preview-actions">
+                <button class="preview-btn delete" id="previewDeleteBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    Delete
+                </button>
+                <button class="preview-btn close" id="previewCloseBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Confirmation Modal -->
     <div class="modal hidden" id="deleteModal">
         <div class="modal-content">
@@ -291,43 +377,142 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         <span class="toast-message"></span>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; STUDIO SATYAN 2025</p>
-    </footer>
-
     <script>
-        // Hamburger menu toggle
-        document.getElementById('hamburgerBtn').addEventListener('click', function() {
-            document.getElementById('hamburgerDropdown').classList.toggle('open');
-        });
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.hamburger-menu')) {
-                document.getElementById('hamburgerDropdown').classList.remove('open');
-            }
-        });
+        // ================================
+        // AUTHENTICATION
+        // ================================
+        const loginScreen = document.getElementById('loginScreen');
+        const adminContent = document.getElementById('adminContent');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
 
-        // Tab Navigation
-        const tabs = document.querySelectorAll('.admin-tab');
-        const sections = document.querySelectorAll('.admin-section');
+        let authToken = localStorage.getItem('adminToken');
+        let tokenExpiry = localStorage.getItem('adminTokenExpiry');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetTab = tab.dataset.tab;
-
-                // Update active tab
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                // Show corresponding section
-                sections.forEach(section => {
-                    section.classList.add('hidden');
-                    if (section.id === `${targetTab}-section`) {
-                        section.classList.remove('hidden');
+        // Check if already authenticated
+        async function checkAuth() {
+            if (authToken && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+                // Verify token with server
+                try {
+                    const response = await fetch('/.netlify/functions/verify-token', {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    });
+                    if (response.ok) {
+                        showAdminContent();
+                        return;
                     }
+                } catch (e) {
+                    console.log('Token verification failed');
+                }
+            }
+            // Clear invalid token
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminTokenExpiry');
+            authToken = null;
+            showLoginScreen();
+        }
+
+        function showLoginScreen() {
+            loginScreen.classList.remove('hidden');
+            adminContent.classList.add('hidden');
+        }
+
+        function showAdminContent() {
+            loginScreen.classList.add('hidden');
+            adminContent.classList.remove('hidden');
+            initAdmin();
+        }
+
+        // Login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+            loginError.classList.add('hidden');
+
+            try {
+                const response = await fetch('/.netlify/functions/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    authToken = data.token;
+                    const expiry = Date.now() + data.expiresIn;
+                    localStorage.setItem('adminToken', authToken);
+                    localStorage.setItem('adminTokenExpiry', expiry.toString());
+                    showAdminContent();
+                } else {
+                    loginError.classList.remove('hidden');
+                }
+            } catch (error) {
+                loginError.textContent = 'Connection error. Please try again.';
+                loginError.classList.remove('hidden');
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.classList.remove('loading');
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminTokenExpiry');
+            authToken = null;
+            document.getElementById('password').value = '';
+            showLoginScreen();
+            showToast('Logged out successfully');
+        });
+
+        // Initialize on page load
+        checkAuth();
+
+        // ================================
+        // ADMIN INITIALIZATION
+        // ================================
+        function initAdmin() {
+            // Hamburger menu toggle
+            document.getElementById('hamburgerBtn').addEventListener('click', function() {
+                document.getElementById('hamburgerDropdown').classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.hamburger-menu')) {
+                    document.getElementById('hamburgerDropdown').classList.remove('open');
+                }
+            });
+
+            // Tab Navigation
+            const tabs = document.querySelectorAll('.admin-tab');
+            const sections = document.querySelectorAll('.admin-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Show corresponding section
+                    sections.forEach(section => {
+                        section.classList.add('hidden');
+                        if (section.id === `${targetTab}-section`) {
+                            section.classList.remove('hidden');
+                        }
+                    });
                 });
             });
-        });
+
+            // Load content from server
+            loadServerContent();
+        }
 
         // Toast Notification
         function showToast(message, type = 'success') {
@@ -345,88 +530,220 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         // COLLAGE IMAGE MANAGEMENT
         // ================================
 
-        // Sample images from _Images/Home-Collage/
-        const collageImages = [
-            '44c931601f5cd938be7f14ea40ce9f15.jpeg',
-            '484d4d30-7464-4d13-a928-63556b1a2bbd.jpeg',
-            '522847C5-37E2-4342-A104-0CF1EDB7179A.jpeg',
-            '5479ec54-2926-408d-8f77-1a8165f09939.jpeg',
-            '56642875880__73CE31CD-B414-4A49-BC85-C61C33189B9A.jpeg',
-            '58888336679__0C0F3E01-6CEA-4934-919E-E7EDB16429DB.jpeg',
-            '626af402-4e3c-4cb9-b3a7-2ca376076c9f.jpeg',
-            '72220589324__AF576498-CAE7-43AD-A3BE-D90CB4BDE137.jpeg',
-            '843ac80c-7d99-457e-b06c-e73479fad93f.jpeg',
-            'A715D6ED-2551-4A95-95DF-3B8DF02D5BB8.jpeg',
-            'afd4ac2f-23f1-466b-a105-39d211c1beff.jpeg',
-            'c3f8d966-26f8-40c2-9dd7-5f5e5fc804b7.jpeg',
-            'cf36a9f84bd09b7cf065ad38b32a9969.jpeg',
-            'color perspective.jpeg',
-            'corre 2 botinha.273.jpeg',
-            'e2106001-b1d4-499e-8d1c-36d648d56501.jpeg',
-            'FOAM SHOE Heel Tan.979.png',
-            'hero-1.png',
-            'IMG_0104.jpeg',
-            'IMG_0253.jpeg',
-            'IMG_0315.jpeg',
-            'IMG_0389.jpeg',
-            'IMG_0530.jpeg',
-            'IMG_0556.jpeg',
-            'IMG_0628.jpeg',
-            'IMG_0654.jpeg',
-            'IMG_0829.jpeg',
-            'IMG_0980.jpeg',
-            'IMG_1281.jpeg',
-            'IMG_1574.jpeg',
-            'IMG_2028.jpeg',
-            'IMG_2184.jpeg',
-            'IMG_2284.jpeg',
-            'IMG_2285.jpeg',
-            'IMG_2286.jpeg',
-            'IMG_3083.jpeg',
-            'IMG_4777.jpeg',
-            'IMG_5141.jpeg',
-            'IMG_6036.jpeg',
-            'IMG_6062.jpeg',
-            'IMG_7053.jpeg',
-            'IMG_9133.jpeg'
+        // Image path prefix
+        const IMAGE_PATH_PREFIX = '_Images/Home-Collage/';
+
+        // Default images from _Images/Home-Collage/ (with full paths for server storage)
+        const defaultCollageImages = [
+            '_Images/Home-Collage/hero-1.png',
+            '_Images/Home-Collage/44c931601f5cd938be7f14ea40ce9f15.jpeg',
+            '_Images/Home-Collage/484d4d30-7464-4d13-a928-63556b1a2bbd.jpeg',
+            '_Images/Home-Collage/522847C5-37E2-4342-A104-0CF1EDB7179A.jpeg',
+            '_Images/Home-Collage/5479ec54-2926-408d-8f77-1a8165f09939.jpeg',
+            '_Images/Home-Collage/56642875880__73CE31CD-B414-4A49-BC85-C61C33189B9A.jpeg',
+            '_Images/Home-Collage/58888336679__0C0F3E01-6CEA-4934-919E-E7EDB16429DB.jpeg',
+            '_Images/Home-Collage/626af402-4e3c-4cb9-b3a7-2ca376076c9f.jpeg',
+            '_Images/Home-Collage/72220589324__AF576498-CAE7-43AD-A3BE-D90CB4BDE137.jpeg',
+            '_Images/Home-Collage/843ac80c-7d99-457e-b06c-e73479fad93f.jpeg',
+            '_Images/Home-Collage/A715D6ED-2551-4A95-95DF-3B8DF02D5BB8.jpeg',
+            '_Images/Home-Collage/afd4ac2f-23f1-466b-a105-39d211c1beff.jpeg',
+            '_Images/Home-Collage/c3f8d966-26f8-40c2-9dd7-5f5e5fc804b7.jpeg',
+            '_Images/Home-Collage/cf36a9f84bd09b7cf065ad38b32a9969.jpeg',
+            '_Images/Home-Collage/color perspective.jpeg',
+            '_Images/Home-Collage/corre 2 botinha.273.jpeg',
+            '_Images/Home-Collage/e2106001-b1d4-499e-8d1c-36d648d56501.jpeg',
+            '_Images/Home-Collage/FOAM SHOE Heel Tan.979.png',
+            '_Images/Home-Collage/IMG_0104.jpeg',
+            '_Images/Home-Collage/IMG_0253.jpeg',
+            '_Images/Home-Collage/IMG_0315.jpeg',
+            '_Images/Home-Collage/IMG_0389.jpeg',
+            '_Images/Home-Collage/IMG_0530.jpeg',
+            '_Images/Home-Collage/IMG_0556.jpeg',
+            '_Images/Home-Collage/IMG_0628.jpeg',
+            '_Images/Home-Collage/IMG_0654.jpeg',
+            '_Images/Home-Collage/IMG_0829.jpeg',
+            '_Images/Home-Collage/IMG_0980.jpeg',
+            '_Images/Home-Collage/IMG_1281.jpeg',
+            '_Images/Home-Collage/IMG_1574.jpeg',
+            '_Images/Home-Collage/IMG_2028.jpeg',
+            '_Images/Home-Collage/IMG_2184.jpeg',
+            '_Images/Home-Collage/IMG_2284.jpeg',
+            '_Images/Home-Collage/IMG_2285.jpeg',
+            '_Images/Home-Collage/IMG_2286.jpeg',
+            '_Images/Home-Collage/IMG_3083.jpeg',
+            '_Images/Home-Collage/IMG_4777.jpeg',
+            '_Images/Home-Collage/IMG_5141.jpeg',
+            '_Images/Home-Collage/IMG_6036.jpeg',
+            '_Images/Home-Collage/IMG_6062.jpeg',
+            '_Images/Home-Collage/IMG_7053.jpeg',
+            '_Images/Home-Collage/IMG_9133.jpeg'
         ];
+
+        // Active collage images (will be loaded from server or defaults)
+        let collageImages = [...defaultCollageImages];
+
+        // Hero image (first image by default)
+        let heroImage = defaultCollageImages[0];
+
+        // Get filename from full path
+        function getFilename(path) {
+            return path.replace(IMAGE_PATH_PREFIX, '');
+        }
+
+        // Save collage images to server (includes hero designation)
+        async function saveCollageImages() {
+            // Save as object with hero and images array
+            const collageData = {
+                hero: heroImage,
+                images: collageImages
+            };
+            const success = await saveToServer('collage-images', collageData);
+            if (success) {
+                showToast('Collage images saved to server');
+            }
+            return success;
+        }
+
+        // Update hero image display
+        function updateHeroDisplay() {
+            const heroPreviewImg = document.getElementById('heroPreviewImg');
+            const heroFilename = document.getElementById('heroFilename');
+            const heroDisplay = document.getElementById('heroImageDisplay');
+
+            if (heroImage) {
+                const imageSrc = encodeURIComponent(heroImage).replace(/%2F/g, '/');
+                heroPreviewImg.src = imageSrc;
+                heroFilename.textContent = getFilename(heroImage);
+                heroDisplay.classList.remove('no-hero');
+            } else {
+                heroPreviewImg.src = '';
+                heroFilename.textContent = 'No hero image selected';
+                heroDisplay.classList.add('no-hero');
+            }
+        }
+
+        // Set image as hero
+        async function setAsHero(imagePath) {
+            heroImage = imagePath;
+            updateHeroDisplay();
+            renderImageGrid(); // Re-render to update star icons
+            await saveCollageImages();
+            showToast(`Hero image set: ${getFilename(imagePath)}`);
+        }
 
         const imageGrid = document.getElementById('imageGrid');
         const uploadArea = document.getElementById('uploadArea');
         const imageUpload = document.getElementById('imageUpload');
         const deleteModal = document.getElementById('deleteModal');
+        const imagePreviewModal = document.getElementById('imagePreviewModal');
+        const previewImage = document.getElementById('previewImage');
+        const previewFilename = document.getElementById('previewFilename');
+        const previewDimensions = document.getElementById('previewDimensions');
+        const imageCountEl = document.getElementById('imageCount');
+        let originalImageCount = defaultCollageImages.length; // Store original count
         let imageToDelete = null;
+        let currentPreviewIndex = null;
+
+        // Update image count display
+        function updateImageCount() {
+            imageCountEl.textContent = `(${collageImages.length}/${originalImageCount})`;
+        }
 
         // Render image grid
         function renderImageGrid() {
             imageGrid.innerHTML = '';
-            collageImages.forEach((image, index) => {
+            collageImages.forEach((imagePath, index) => {
+                const filename = getFilename(imagePath);
+                const isHero = imagePath === heroImage;
                 const imageCard = document.createElement('div');
-                imageCard.className = 'image-card';
+                imageCard.className = `image-card${isHero ? ' is-hero' : ''}`;
+                imageCard.dataset.index = index;
                 imageCard.innerHTML = `
-                    <img src="_Images/Home-Collage/${encodeURIComponent(image)}" alt="${image}" loading="lazy">
+                    <img src="${encodeURIComponent(imagePath).replace(/%2F/g, '/')}" alt="${filename}" loading="lazy">
+                    <button class="hero-star-btn${isHero ? ' active' : ''}" data-path="${imagePath}" title="${isHero ? 'Current hero image' : 'Set as hero image'}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="${isHero ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
                     <div class="image-overlay">
-                        <span class="image-name">${image}</span>
-                        <button class="delete-image-btn" data-index="${index}" title="Delete image">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                            </svg>
-                        </button>
+                        <span class="image-name">${filename}</span>
                     </div>
                 `;
                 imageGrid.appendChild(imageCard);
             });
 
-            // Add delete button listeners
-            document.querySelectorAll('.delete-image-btn').forEach(btn => {
+            // Add click listeners for hero star buttons
+            document.querySelectorAll('.hero-star-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    imageToDelete = parseInt(btn.dataset.index);
-                    deleteModal.classList.remove('hidden');
+                    e.stopPropagation(); // Prevent card click
+                    const path = btn.dataset.path;
+                    if (path !== heroImage) {
+                        setAsHero(path);
+                    }
                 });
             });
+
+            // Add click listeners to image cards for preview
+            document.querySelectorAll('.image-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Don't open preview if clicking the star button
+                    if (e.target.closest('.hero-star-btn')) return;
+                    const index = parseInt(card.dataset.index);
+                    openImagePreview(index);
+                });
+            });
+
+            // Update image count and hero display
+            updateImageCount();
+            updateHeroDisplay();
         }
+
+        // Open image preview modal
+        function openImagePreview(index) {
+            currentPreviewIndex = index;
+            const imagePath = collageImages[index];
+            const filename = getFilename(imagePath);
+            const imageSrc = encodeURIComponent(imagePath).replace(/%2F/g, '/');
+
+            previewImage.src = imageSrc;
+            previewFilename.textContent = filename;
+            previewDimensions.textContent = 'Loading dimensions...';
+
+            // Get actual image dimensions
+            const img = new Image();
+            img.onload = function() {
+                previewDimensions.textContent = `${this.naturalWidth} x ${this.naturalHeight} px`;
+            };
+            img.onerror = function() {
+                previewDimensions.textContent = 'Unable to load dimensions';
+            };
+            img.src = imageSrc;
+
+            imagePreviewModal.classList.remove('hidden');
+        }
+
+        // Close image preview modal
+        function closeImagePreview() {
+            imagePreviewModal.classList.add('hidden');
+            currentPreviewIndex = null;
+        }
+
+        // Preview modal event listeners
+        document.getElementById('previewCloseBtn').addEventListener('click', closeImagePreview);
+
+        document.getElementById('previewDeleteBtn').addEventListener('click', () => {
+            if (currentPreviewIndex !== null) {
+                imageToDelete = currentPreviewIndex;
+                closeImagePreview();
+                deleteModal.classList.remove('hidden');
+            }
+        });
+
+        imagePreviewModal.addEventListener('click', (e) => {
+            if (e.target === imagePreviewModal) {
+                closeImagePreview();
+            }
+        });
 
         // Initialize image grid
         renderImageGrid();
@@ -453,16 +770,22 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             handleFiles(e.target.files);
         });
 
-        function handleFiles(files) {
+        async function handleFiles(files) {
+            let addedCount = 0;
             Array.from(files).forEach(file => {
                 if (file.type.startsWith('image/')) {
-                    // In a real implementation, this would upload to the server
-                    // For now, we'll simulate adding the image
-                    collageImages.push(file.name);
+                    // Add with full path prefix
+                    const fullPath = IMAGE_PATH_PREFIX + file.name;
+                    collageImages.push(fullPath);
                     showToast(`Added: ${file.name}`);
+                    addedCount++;
                 }
             });
-            renderImageGrid();
+            if (addedCount > 0) {
+                renderImageGrid();
+                // Save to server
+                await saveCollageImages();
+            }
         }
 
         // Delete modal interactions
@@ -471,12 +794,23 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             imageToDelete = null;
         });
 
-        document.getElementById('confirmDelete').addEventListener('click', () => {
+        document.getElementById('confirmDelete').addEventListener('click', async () => {
             if (imageToDelete !== null) {
-                const imageName = collageImages[imageToDelete];
-                collageImages.splice(imageToDelete, 1);
+                const imagePath = collageImages[imageToDelete];
+                const filename = getFilename(imagePath);
+
+                // If deleting the hero image, set new hero to first remaining image
+                if (imagePath === heroImage) {
+                    collageImages.splice(imageToDelete, 1);
+                    heroImage = collageImages.length > 0 ? collageImages[0] : null;
+                } else {
+                    collageImages.splice(imageToDelete, 1);
+                }
+
                 renderImageGrid();
-                showToast(`Deleted: ${imageName}`);
+                showToast(`Deleted: ${filename}`);
+                // Save to server
+                await saveCollageImages();
             }
             deleteModal.classList.add('hidden');
             imageToDelete = null;
@@ -512,7 +846,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             }
         });
 
-        document.getElementById('saveAbout').addEventListener('click', () => {
+        document.getElementById('saveAbout').addEventListener('click', async () => {
             // Collect all about page data
             const aboutData = {
                 title: document.getElementById('aboutTitle').value,
@@ -535,16 +869,18 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                 }
             };
 
-            // In a real implementation, this would save to the server
-            console.log('About page data:', aboutData);
-            localStorage.setItem('aboutPageData', JSON.stringify(aboutData));
-            showToast('About page saved successfully!');
+            // Save to server
+            const success = await saveToServer('about-page', aboutData);
+            if (success) {
+                showToast('About page saved successfully!');
+            } else {
+                showToast('Failed to save. Please try again.', 'error');
+            }
         });
 
-        // Load saved about data
-        const savedAboutData = localStorage.getItem('aboutPageData');
-        if (savedAboutData) {
-            const data = JSON.parse(savedAboutData);
+        // Load about data from form fields (populated by loadServerContent)
+        function loadAboutData(data) {
+            if (!data) return;
             document.getElementById('aboutTitle').value = data.title || '';
             document.getElementById('designerTitle').value = data.designer?.title || '';
             document.getElementById('designerContent').value = data.designer?.content || '';
@@ -561,7 +897,7 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
         // CONTACT PAGE MANAGEMENT
         // ================================
 
-        document.getElementById('saveContact').addEventListener('click', () => {
+        document.getElementById('saveContact').addEventListener('click', async () => {
             // Collect all contact page data
             const contactData = {
                 title: document.getElementById('contactTitle').value,
@@ -600,16 +936,18 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
                 }
             };
 
-            // In a real implementation, this would save to the server
-            console.log('Contact page data:', contactData);
-            localStorage.setItem('contactPageData', JSON.stringify(contactData));
-            showToast('Contact page saved successfully!');
+            // Save to server
+            const success = await saveToServer('contact-page', contactData);
+            if (success) {
+                showToast('Contact page saved successfully!');
+            } else {
+                showToast('Failed to save. Please try again.', 'error');
+            }
         });
 
-        // Load saved contact data
-        const savedContactData = localStorage.getItem('contactPageData');
-        if (savedContactData) {
-            const data = JSON.parse(savedContactData);
+        // Load contact data from form fields (populated by loadServerContent)
+        function loadContactData(data) {
+            if (!data) return;
             document.getElementById('contactTitle').value = data.title || '';
             document.getElementById('contactIntro').value = data.intro || '';
 
@@ -637,6 +975,68 @@ Drop us a message and we'll get back to you as soon as possible.</textarea>
             document.getElementById('contactEmail').value = data.info?.email || '';
             document.getElementById('contactPhone').value = data.info?.phone || '';
             document.getElementById('contactLocation').value = data.info?.location || '';
+        }
+
+        // ================================
+        // SERVER COMMUNICATION
+        // ================================
+
+        // Save to server
+        async function saveToServer(type, data) {
+            try {
+                const response = await fetch('/api/save-content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ type, data })
+                });
+                return response.ok;
+            } catch (error) {
+                console.error('Save error:', error);
+                return false;
+            }
+        }
+
+        // Load content from server
+        async function loadServerContent() {
+            try {
+                const response = await fetch('/api/get-content');
+                if (response.ok) {
+                    const content = await response.json();
+
+                    // Load about page data
+                    if (content.about) {
+                        loadAboutData(content.about);
+                    }
+
+                    // Load contact page data
+                    if (content.contact) {
+                        loadContactData(content.contact);
+                    }
+
+                    // Load collage images (if stored)
+                    if (content.collage) {
+                        // Handle both old format (array) and new format (object with hero and images)
+                        if (content.collage.images && Array.isArray(content.collage.images)) {
+                            // New format with hero
+                            collageImages.length = 0;
+                            collageImages.push(...content.collage.images);
+                            heroImage = content.collage.hero || collageImages[0] || null;
+                        } else if (Array.isArray(content.collage) && content.collage.length > 0) {
+                            // Old format (just array)
+                            collageImages.length = 0;
+                            collageImages.push(...content.collage);
+                            heroImage = collageImages[0] || null;
+                        }
+                        originalImageCount = collageImages.length;
+                        renderImageGrid();
+                    }
+                }
+            } catch (error) {
+                console.log('Could not load server content, using defaults');
+            }
         }
     </script>
 </body>

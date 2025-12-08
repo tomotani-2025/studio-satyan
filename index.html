@@ -285,10 +285,9 @@
     </main>
 
     <script>
-        // Image data from Home-Collage folder
-        // Hero image is first - always starts expanded
+        // Default images (fallback if server data not available)
         const HERO_IMAGE = '_Images/Home-Collage/hero-1.png';
-        const images = [
+        const DEFAULT_IMAGES = [
             HERO_IMAGE,
             '_Images/Home-Collage/44c931601f5cd938be7f14ea40ce9f15.jpeg',
             '_Images/Home-Collage/484d4d30-7464-4d13-a928-63556b1a2bbd.jpeg',
@@ -332,6 +331,53 @@
             '_Images/Home-Collage/IMG_7053.jpeg',
             '_Images/Home-Collage/IMG_9133.jpeg',
         ];
+
+        // Active images array - will be populated from server or defaults
+        let images = [];
+
+        // Fetch collage images from server
+        async function loadCollageImages() {
+            try {
+                const response = await fetch('/api/get-content');
+                if (!response.ok) throw new Error('API not available');
+
+                const data = await response.json();
+
+                if (data.collage) {
+                    // Handle new format (object with hero and images)
+                    if (data.collage.images && Array.isArray(data.collage.images) && data.collage.images.length > 0) {
+                        const heroImage = data.collage.hero;
+                        const allImages = data.collage.images;
+
+                        // Put hero image first, then rest of images (excluding hero from its original position)
+                        if (heroImage) {
+                            const otherImages = allImages.filter(img => img !== heroImage);
+                            images = [heroImage, ...otherImages];
+                        } else {
+                            images = allImages;
+                        }
+                        console.log('Loaded', images.length, 'images from server (hero:', heroImage ? 'set' : 'default', ')');
+                    }
+                    // Handle old format (just array)
+                    else if (Array.isArray(data.collage) && data.collage.length > 0) {
+                        images = data.collage;
+                        console.log('Loaded', images.length, 'images from server (legacy format)');
+                    } else {
+                        // No valid data, use defaults
+                        images = [...DEFAULT_IMAGES];
+                        console.log('Using default images (no valid server data)');
+                    }
+                } else {
+                    // No server data, use defaults
+                    images = [...DEFAULT_IMAGES];
+                    console.log('Using default images (no server data)');
+                }
+            } catch (error) {
+                // API not available (local dev or error), use defaults
+                images = [...DEFAULT_IMAGES];
+                console.log('Using default images (API unavailable)');
+            }
+        }
 
         // State
         let positions = [];
@@ -1288,8 +1334,6 @@
                 } catch (err) {
                     console.log('Eyedropper cancelled');
                 }
-            } else {
-                alert('Eyedropper not supported in this browser');
             }
         });
 
@@ -1300,6 +1344,11 @@
         // Initialize V2 UI state
         updateLineWeight();
         updateColorSliders();
+
+        // Hide eyedropper button if not supported (e.g., iOS, Safari)
+        if (!('EyeDropper' in window)) {
+            document.getElementById('eyedropperBtn').style.display = 'none';
+        }
 
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
@@ -1319,8 +1368,9 @@
         });
         canvas.addEventListener('touchend', stopDrawing);
 
-        // Initialize
-        window.addEventListener('load', () => {
+        // Initialize - load images from server first, then start collage
+        window.addEventListener('load', async () => {
+            await loadCollageImages();
             initCollage();
             setupCanvas();
             startCycle();
