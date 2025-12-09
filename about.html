@@ -27,7 +27,7 @@
     <!-- Main Content -->
     <main class="about-page">
         <div class="about-container">
-            <h1>ABOUT STUDIO SATYAN</h1>
+            <h1 id="aboutTitle">ABOUT STUDIO SATYAN</h1>
 
             <!-- Designer Photo -->
             <div class="about-hero-image">
@@ -36,26 +36,32 @@
 
             <div class="about-content">
                 <section class="about-section">
-                    <h2>THE DESIGNER</h2>
-                    <p>Studio Satyan represents a bold vision in contemporary footwear design, where traditional craftsmanship meets cutting-edge innovation. Founded by visionary designer Satyan, the studio has become synonymous with boundary-pushing creativity and meticulous attention to detail.</p>
-                    <p>With a deep respect for artisanal techniques and an eye toward the future, every piece tells a story of dedication, precision, and artistic expression.</p>
+                    <h2 id="designerTitle">THE DESIGNER</h2>
+                    <div id="designerContent">
+                        <p>Studio Satyan represents a bold vision in contemporary footwear design, where traditional craftsmanship meets cutting-edge innovation. Founded by visionary designer Satyan, the studio has become synonymous with boundary-pushing creativity and meticulous attention to detail.</p>
+                        <p>With a deep respect for artisanal techniques and an eye toward the future, every piece tells a story of dedication, precision, and artistic expression.</p>
+                    </div>
                 </section>
 
                 <section class="about-section">
-                    <h2>PHILOSOPHY</h2>
-                    <p>At Studio Satyan, we believe that footwear is more than just function—it's an extension of personal identity and artistic expression. Each design is carefully considered, balancing aesthetic innovation with ergonomic excellence.</p>
-                    <p>Our approach combines sustainable practices with premium materials, ensuring that every creation is not only beautiful but also built to last.</p>
+                    <h2 id="philosophyTitle">PHILOSOPHY</h2>
+                    <div id="philosophyContent">
+                        <p>At Studio Satyan, we believe that footwear is more than just function—it's an extension of personal identity and artistic expression. Each design is carefully considered, balancing aesthetic innovation with ergonomic excellence.</p>
+                        <p>Our approach combines sustainable practices with premium materials, ensuring that every creation is not only beautiful but also built to last.</p>
+                    </div>
                 </section>
 
                 <section class="about-section">
-                    <h2>PROCESS</h2>
-                    <p>From initial sketch to final product, our design process is a journey of exploration and refinement. We work closely with master craftspeople, utilizing both time-honored techniques and modern technology to bring each vision to life.</p>
+                    <h2 id="processTitle">PROCESS</h2>
+                    <div id="processContent">
+                        <p>From initial sketch to final product, our design process is a journey of exploration and refinement. We work closely with master craftspeople, utilizing both time-honored techniques and modern technology to bring each vision to life.</p>
+                    </div>
                 </section>
 
                 <section class="about-section contact-info">
-                    <h3>GET IN TOUCH</h3>
-                    <p>For inquiries and collaborations:</p>
-                    <p class="email">info@studiosatyan.com</p>
+                    <h3 id="aboutContactTitle">GET IN TOUCH</h3>
+                    <p id="aboutContactText">For inquiries and collaborations:</p>
+                    <p class="email" id="aboutEmail">info@studiosatyan.com</p>
                 </section>
             </div>
         </div>
@@ -95,6 +101,38 @@
         document.querySelectorAll('.about-section').forEach(el => {
             observer.observe(el);
         });
+
+        // Load content from server
+        async function loadContent() {
+            try {
+                const response = await fetch('/.netlify/functions/get-content');
+                if (response.ok) {
+                    const content = await response.json();
+                    if (content.about) {
+                        const data = content.about;
+                        if (data.title) document.getElementById('aboutTitle').textContent = data.title;
+                        if (data.designer?.title) document.getElementById('designerTitle').textContent = data.designer.title;
+                        if (data.designer?.content) {
+                            document.getElementById('designerContent').innerHTML = data.designer.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+                        }
+                        if (data.philosophy?.title) document.getElementById('philosophyTitle').textContent = data.philosophy.title;
+                        if (data.philosophy?.content) {
+                            document.getElementById('philosophyContent').innerHTML = data.philosophy.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+                        }
+                        if (data.process?.title) document.getElementById('processTitle').textContent = data.process.title;
+                        if (data.process?.content) {
+                            document.getElementById('processContent').innerHTML = data.process.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+                        }
+                        if (data.contact?.title) document.getElementById('aboutContactTitle').textContent = data.contact.title;
+                        if (data.contact?.text) document.getElementById('aboutContactText').textContent = data.contact.text;
+                        if (data.contact?.email) document.getElementById('aboutEmail').textContent = data.contact.email;
+                    }
+                }
+            } catch (error) {
+                console.log('Using default content');
+            }
+        }
+        loadContent();
     </script>
 </body>
 </html>
