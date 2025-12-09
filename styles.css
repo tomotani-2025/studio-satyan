@@ -2300,11 +2300,11 @@ footer {
 }
 
 .preview-nav-btn.prev {
-    left: 1.5rem;
+    left: 3rem;
 }
 
 .preview-nav-btn.next {
-    right: 1.5rem;
+    right: 3rem;
 }
 
 .preview-nav-btn svg {
@@ -2374,17 +2374,17 @@ footer {
 }
 
 .preview-btn.close {
-    background: var(--color-black);
-    color: var(--color-red-500);
+    background: var(--color-red-500);
+    color: var(--color-black);
 }
 
 .preview-btn.close svg,
 .preview-btn.close svg * {
-    stroke: #ef4444 !important;
+    stroke: var(--color-black) !important;
 }
 
 .preview-btn.close:hover {
-    background: var(--color-neutral-800);
+    background: #dc2626;
 }
 
 /* Make image cards clickable */
