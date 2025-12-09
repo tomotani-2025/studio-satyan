@@ -2229,6 +2229,13 @@ footer {
 }
 
 /* Image Preview Modal */
+.preview-modal-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 .image-preview-modal-content {
     background: var(--color-white);
     border-radius: var(--radius);
@@ -2273,9 +2280,8 @@ footer {
 
 /* Preview Navigation Buttons */
 .preview-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
+    flex-shrink: 0;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -2292,19 +2298,11 @@ footer {
 
 .preview-nav-btn:hover {
     background: var(--color-neutral-100);
-    transform: translateY(-50%) scale(1.05);
+    transform: scale(1.05);
 }
 
 .preview-nav-btn:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.preview-nav-btn.prev {
-    left: 3rem;
-}
-
-.preview-nav-btn.next {
-    right: 3rem;
+    transform: scale(0.95);
 }
 
 .preview-nav-btn svg {
