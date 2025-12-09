@@ -852,20 +852,26 @@ p {
     background: var(--color-green-600);
 }
 
-/* Cancel/Close button - black with red icon */
+/* Cancel/Close/Delete button - black circle with red icon */
 .modal-round-btn.cancel .modal-btn-circle {
     background: var(--color-black);
-    color: var(--color-red-500);
+}
+
+.modal-round-btn.cancel .modal-btn-circle svg {
+    stroke: #ef4444;
 }
 
 .modal-round-btn.cancel:hover .modal-btn-circle {
     background: var(--color-neutral-800);
 }
 
-/* Go back button - red with black icon */
+/* Go back button - red circle with black icon */
 .modal-round-btn.go-back .modal-btn-circle {
     background: var(--color-red-500);
-    color: var(--color-black);
+}
+
+.modal-round-btn.go-back .modal-btn-circle svg {
+    stroke: var(--color-black);
 }
 
 .modal-round-btn.go-back:hover .modal-btn-circle {
@@ -2209,10 +2215,13 @@ footer {
     background: var(--color-neutral-800);
 }
 
-/* Delete Confirm Button - black with red icon */
+/* Delete Confirm Button - black circle with red icon */
 .modal-round-btn.delete-confirm .modal-btn-circle {
     background: var(--color-black);
-    color: var(--color-red-500);
+}
+
+.modal-round-btn.delete-confirm .modal-btn-circle svg {
+    stroke: #ef4444;
 }
 
 .modal-round-btn.delete-confirm:hover .modal-btn-circle {
