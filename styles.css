@@ -2355,8 +2355,9 @@ footer {
     color: var(--color-red-500);
 }
 
-.preview-btn.delete svg {
-    stroke: var(--color-red-500);
+.preview-btn.delete svg,
+.preview-btn.delete svg * {
+    stroke: #ef4444 !important;
 }
 
 .preview-btn.delete:hover {
@@ -2368,8 +2369,9 @@ footer {
     color: var(--color-red-500);
 }
 
-.preview-btn.close svg {
-    stroke: var(--color-red-500);
+.preview-btn.close svg,
+.preview-btn.close svg * {
+    stroke: #ef4444 !important;
 }
 
 .preview-btn.close:hover {
